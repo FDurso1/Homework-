@@ -9,13 +9,17 @@ int main(void) {
   char tempType = 'f';
   float totalTemp = 0;
   int totalInput = 0;
-  printf("The start char is %c\n", tempType);
+  char mathsym = '+';
+  // printf("The start char is %c\n", tempType);
   while ((totalInput = scanf(" %f %c", &temp, &tempType)) == 2) {
-    printf("the char / tempType is %c\n", tempType);
-
+    // printf("the char / tempType is %c\n", tempType);
+    if (mathsym == '-' && temp > 0) {
+      temp = -1 * temp;
+    }
+    
     switch (tempType) {
       case 'c':
-	printf("c detected");
+	//printf("c detected");
         temp = (temp*1.8) + 32;
         totalTemp += temp;
         break;
@@ -26,9 +30,11 @@ int main(void) {
         break;
       default:
         printf("invalid unit\n");
-	return 1;
+	return 2;
         break;
     }
+    int detected  = scanf(" %c", &mathsym);
+    printf("The math symbol is: %c\n", mathsym);
   }
   
   printf("%.2f F\n", totalTemp);
