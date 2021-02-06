@@ -1,51 +1,62 @@
-//Francis Durso
-//FDurso1
+/*
+ * Summing temperatures of different types / error handling
+ * Intermediate Programming: Homework 1
+ * Francis Durso
+ * fdurso1
+*/
 
 #include  <stdio.h>
 
 int main(void) {
-  printf("Please enter the weather trend using + and - only:\n");
-  float temp = 0;
-  char tempType = 'f';
-  float totalTemp = 0;
-  int totalInput = 2;
-  char mathsym = '+';
-  // printf("The start char is %c\n", tempType);
+  
+  float temp = 0; //the temperature entered
+  char tempType = 'f'; //f or c
+  float totalTemp = 0; //the total temp
+  int totalInput = 2; //a check for proper user input
+  char mathSym = '+'; //a way to determine whether input was meant to be negative
+  int isInput = 0; //This is for the specific case of no user input:
+
+  printf("Please enter the weather trend using + and 0 only:\n");
+  
   while ((totalInput = scanf(" %f %c", &temp, &tempType)) == 2) {
-    // printf("the char / tempType is %c\n", tempType);
-    printf("input currently valid (%d), continuing\n", totalInput);
+    isInput = 1; //there was at least some input detected.
+    
     switch (tempType) {
       case 'c':
-	//	printf("c detected\n");
         temp = (temp*1.8) + 32;
-	//printf("adjusted temp is now: %f\n", temp);
         break;
-        //I wanted to not include the totalTemp += temp line and just let it fall through
-        //But that produced a warning so I put it back
+	
       case 'f':
         break;
+	
       default:
         printf("invalid unit\n");
 	return 2;
         break;
     }
-    if (mathsym == '-' && temp > 0) {
-      temp = -1 * temp;
+    
+    if (mathSym == '-' && temp > 0) {
+      temp = -1 * temp; //for when the user inputs '- ' before the temperature
     }
-    else if (mathsym != '+' && mathsym != 0) {
-      printf("malformed expression 1\n");
+    else if (mathSym != '+' && mathSym != 0) {
+      //if they didn't enter a plus (or this was the end of the input stream)
+      printf("malformed expression\n");
       return 1;
     }
+    
     totalTemp += temp;
-    scanf(" %c", &mathsym);
-    printf("The math symbol is: %c\n", mathsym);
-    printf("Now at the end of the while loop, the totalinput is %d\n", totalInput);
+    scanf(" %c", &mathSym); //the next + or - symbol (if any) is detected. A null works too
   }
-  if (totalInput != 2 && totalInput != -1) {
-    printf("malformed expression 2\n");
-    printf("total input calculated to be %d\n", totalInput);
-    // return 1;
+  
+  if (totalInput != 2 && (totalInput != -1 || isInput == 0)) {
+    //This will run under two conditions:
+    //The totalInput detected is not 2 (ie, there is not a number and a char and either:
+    //The totalInput is not -1  (which stops  pressing enter mid-input from ruining the code
+    //Or: there was no user input to begin with
+    printf("malformed expression\n");
+    return 1;
   }
+  
   printf("%.2f F\n", totalTemp);
   return 0;
 }
