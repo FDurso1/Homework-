@@ -22,8 +22,6 @@ int main(void) {
   while ((totalInput = scanf(" %f %c", &temp, &tempType)) == 2) {
     isInput = 1; //there was at least some input detected.
     
-    // printf("1.The current temp being calculated / added is: %f\n", temp);
-    
     switch (tempType) {
       case 'c':
         temp = (temp*1.8) + 32;
@@ -38,38 +36,24 @@ int main(void) {
         break;
     }
     
-    // printf("2.The middle temp being calculated is: %f\n", temp);
-    
     if (mathSym == '-' && temp > 0) {
       temp = -1 * temp; //for when the user inputs '- ' before the temperature
     }
-    else if (mathSym != '+' && mathSym != 0) {
-      //if they didn't enter a plus (or this was the end of the input stream)
+    else if (mathSym != '+') {
+      //if they didn't enter a plus (malformed expression)
       printf("malformed expression\n");
       return 1;
     }
-
-    // printf("3.The final temp that is about to be added is: %f\n", temp);
     
     totalTemp += temp;
     endingSym =  scanf(" %c", &mathSym);
    //the next + or - symbol (if any) is detected. A null provides -1, the end of the input
-   // printf("The value of the mathSym is %d\n", mathSym);
-   // printf("The existence of the mathsym is %d\n", endingSym);
     
   }
   
   if (totalInput != 2) {
-    if (totalInput != -1) {
-      printf("malformed1 - there was not two expected values\n");
-      return 1;
-    }
-    else if (isInput == 0) {
-      printf("malformed2 - there was no user input");
-      return 1;
-    }
-    else if (endingSym != -1) {
-      printf("The user ended with a math symbol");
+    if (totalInput != -1 || isInput == 0 || endingSym != -1) {
+      printf("malformed expression\n");
       return 1;
     }
   }
