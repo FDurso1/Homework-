@@ -17,7 +17,7 @@ int main(void) {
   int isInput = 0; //This is for the specific case of no user input:
   int endingSym = 0; //This is for detecting whether the user ends on a math symbol
   
-  printf("Please enter the weather trend using + and 0 only:\n");
+  printf("Please enter the weather trend using + and - only:\n");
   
   while ((totalInput = scanf(" %f %c", &temp, &tempType)) == 2) {
     isInput = 1; //there was at least some input detected.
