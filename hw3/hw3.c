@@ -9,23 +9,20 @@
 #define DEFAULT_RESTRICTION 10
 
 int read_file(FILE *fp, char words[][MAX_WORD_SIZE +1], int size); //declare
+int match(const char *regex, const char *word, int restriction); //declare
 
 int main(int argc, const char *argv[]) {
   char words[ MAX_WORD_NUM ][ MAX_WORD_SIZE + 1 ]; 
     // TODO: Implement me!
   printf("main\n");
   if (argc !=2) {
-    printf("specify a file name");
+    printf("specify a file name / just one file name");
     return 1;
   }
-  // printf("argc: %d\n", argc);
-  printf("argv[1] = %s\n", argv[1]);
-  
+   
   FILE *fptr = NULL;
   fptr = fopen(argv[1], "r");
   
-  //  fprintf(fptr, "5\nintermediate\ninttterrmeediateeee\nprogram\nppproograaamm\naaa");
-  // fclose(fptr);
   if (!fptr) {
     printf("file open error\n");
     return -1;
@@ -39,5 +36,41 @@ int main(int argc, const char *argv[]) {
   
   read_file(fptr, words, size);
   fclose(fptr);
+  printf("testing the words array\n");
+  for (int i = 0; i < size; i++) {
+    for (int j = 0; j < MAX_WORD_SIZE +1 && words[i][j] != '\n'; j++) {
+      printf("%c", words[i][j]);
+    }
+    printf("\n");
+  }
+  char hold = '0';
+  int input = 0;
+  int z = 0;
+  char reggy[MAX_WORD_SIZE] = "\0";
+  while ((input = scanf(" %c", &hold)) == 1) {
+     reggy[z] = hold;
+     z++;
+  }
+  printf("reggex expression: ");
+  for (int i = 0; i < z; i++) {
+    printf("%c", reggy[i]);
+  }
+  printf("\n");
+  printf("%s\n", reggy);
+  
+  for (int i = 0; i < size; i++) {
+    char curWord[] = "";
+    for (int j = 0; i < MAX_WORD_SIZE+1 && words[i][j] != '\n'; j++) {
+      curWord[j] = words[i][j];
+      curWord[j+1] = '\0';
+    }
+    printf("testing whether %s is found by %s\n", curWord, reggy);
+    match(reggy, curWord, 10);
+    //reggy is not being conveyed properly
+  }
+
+
+
+  
     return 0;
 }
