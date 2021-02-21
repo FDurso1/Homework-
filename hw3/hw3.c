@@ -46,7 +46,7 @@ int main(int argc, const char *argv[]) {
   char hold = '0';
   int input = 0;
   int z = 0;
-  char reggy[MAX_WORD_SIZE+1] = "\0";
+  char reggy[MAX_INPUT_SIZE+1] = "\0";
   while ((input = scanf(" %c", &hold)) == 1) {
      reggy[z] = hold;
      z++;
