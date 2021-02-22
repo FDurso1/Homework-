@@ -39,21 +39,13 @@ int getRegexSize(const char *regex) {
   return i;
 }
 
-int simpleMatch(const char *regex, const char *word);
 int isWild(char c);
-int recursiveSolution(const char *regex, const char *word, int *regIdxP, int *wordIdxP);
-
-char* getLettersUntilNextWild(const char *regex, const char *word, int *regIdxP, int *wordIdxP);
+int tildeRec(const char *word, char c, int i);
 
 int match(const char *regex, const char *word, int restriction) {
     // TODO: Implement me!
   printf("match start\n");
-  //  int toReturn = 1
-
-  //if the regex expression is just a word in the list
-  if (simpleMatch(regex, word) == 1) {
-    return 1;
-  }
+  
   
   int wordSize =  getWordSize(word);
   printf("The size of the word being assessed is %d\n", wordSize);
@@ -61,77 +53,123 @@ int match(const char *regex, const char *word, int restriction) {
   int regSize = getRegexSize(regex);
   printf("The size of the regex being assessed is %d\n", regSize);
 
-  
-  int *regIdxP = 0;
-  int *wordIdxP = 0;
-
-  int works =  recursiveSolution(regex, word, regIdxP, wordIdxP);
-  
-  printf(" %s %s %d\n", regex, word, restriction);
-  return works;
-}
-
-int recursiveSolution(const char *regex, const char *word, int *regIdxP, int *wordIdxP) {
-  //while regIdx < regSize
-  //getLetters()
-  printf("%s%s%d%d\n", regex, word, *regIdxP, *wordIdxP);
-  return 0;
-}
-
-    char* getLettersUntilNextWild(const char *regex, const char *word, int *regIdxP, int *wordIdxP) {
-      
-    char* toReturn[MAX_WORD_SIZE+1];
-    toReturn[0] = '\0';
-    int startIdx = *regIdxP;
-    
-    while (isWild(regex[*regIdxP]) == 1) {
-      strncat(toReturn, regex[*regIdxP], 1);
-      strncat(toReturn, '\0', 1);
-      *regIdxP++;
-    }
-    if (regex[*regIdxP] == '*' || regex[*regIdxP] == '?') {
-      *regIdxP--;
-      toReturn[*regIdxP] = '\0';
-    }
-    if (*regIdx - startIdx > 0) {
-      if (compareStrings(toReturn, word, wordIdxP) == 0) {
-	printf("the non-wild related characters starting from %d do not match those in the regex string at %d\n", *wordIdxP, *regIdxP);
-	return 1;
-      }
-      //compare the strings based on current wordIdx positions
-    }
-    //work out what wild card is being called and call that function
-    
-    
-  }
-
-  int compareStrings(char* letters, char* word, int *wordIdxP) {
-    printf("starting compare word idx: %d\n", *wordIdxP);
-    
-    int size = getWordSize(letters);
-    for (int i = 0; i < size; i++) {
-      if (word[*wordIdxP + i] != letters[i]) {
+  if (regSize == 1) { //if regex is size 1
+    printf("reg size is 1\n");
+    if (regex[0] == '~') { //if it's a tilde
+      if (getWordSize(word) <= restriction) { //check word size and return accordingly
 	return 0;
       }
+      else {
+	return 1;
+      }
     }
-    printf("ending compare word idx: %d\n", *wordIdxP);
-    return 1;
-  }
-
-/*
-  This method is used to check whether the regex expression is easy
- */
-int simpleMatch(const char* regex, const char* word) {
-  for(int i = 0; i < MAX_WORD_SIZE+1; i++) {
-    if (regex[i] != word[i]) {
+    else if (getWordSize(word) > 1) { //if it's a letter, and word is longer than 1 letter, return false
       return 0;
     }
+    else if (getWordSize(word) == 1) {
+      return regex[0] == word[0]; //return if they're the same character
+    }
+    else {
+      printf("ERROR! ERROR! ABORT! ABORT!\n");
+      return -1;
+    }
   }
-  return 1;
+  else { //regex is at least size 2
+    printf("reg size is 2+\n");
+    if (isWild(regex[0]) == 0 && regex[0] !='~' && isWild(regex[1]) == 0) { //if neither the first nor second character of regex is a * or ?, and the first is not a ~ 
+      if (regex[0] == word[0]) { //if the first character of regex and word match
+	printf("The first characters of regex and word match, recurring\n");
+	return match(regex++, word++, restriction); //recursion
+      }
+      else {
+	printf("The first characters do not match, returning 0\n");
+	return 0; //the first character of regex and word do not match, not a match
+      }
+    }
+    else if (regex[1] == '*') { //STAR CASE
+      printf("star case\n");
+      if (word[0] == regex[0]) { //if word has the same letter as regex at the start
+	printf("recurring with the first letter of word removed\n");
+	return match(regex, word++, restriction); //uptick word and call again
+      }
+      else { //word does not have that letter at the start
+	printf("Recurring with regex ticked up past the star\n");
+	return match(regex+2, word, restriction); //regex gets upticked past the *, recursive call
+      }
+    }
+    else if (regex[1] == '?') { //QUESTION CASE
+      printf("question case\n");
+      if (word[0] == regex[0]) { //If the letter is present
+	printf("letter present, recurring with regex ticked up past ? and word ticked up once\n");
+	return match(regex+2, word++, restriction); //uptick word, uptick regex past ?, recursive call
+      }
+      else { //letter not present
+	printf("letter not present, recurring with regex ticked up past ?\n");
+	return match(regex+2, word, restriction); //uptick regex past ?, recursive call
+      }
+    }
+    else if (regex[0] == '~') { //TILDE CASE
+      printf("Tilde case\n");
+      if (regSize == 1) { //if tilde is the last character in regex
+	printf("Tilde is the last character\n");
+	if (wordSize > restriction) { //if the remainder of word is too big, false
+	  printf("returning false because the remainder of word is longer than restriction\n");
+	  return 0;
+	}
+	printf("returning true because the remainder of word is shorter than the restriction\n");
+	return 1; //if the remainder of word fits within restriction, true
+      }
+      else { //A letter comes after ~ in regex
+	printf("a letter comes after the tilde\n");
+	char aft = regex[1];
+	int lower = restriction;
+	if (wordSize < restriction) {
+	  lower = wordSize;
+	}
+	printf("working from lower = %d characters into word backwards\n", lower);
+	int hold = tildeRec(word, aft, lower);
+	if (hold == -1) {
+	  printf("The letter after the tilde never came\n");
+	  return 0;
+	}
+	else {
+	  printf("returning ticking up regex past the ~ and word ticked up hold=%d\n", hold);
+	  return match(regex++, word+hold, restriction); 
+	}
+      }
+    }
+    else {
+      printf("UNKNOWN ERROR ABORT ABORT\n");
+      return -1;
+    }
+  }
 }
-    
+
+int tildeRec(const char* word, char* smolWord,  char aft, int i) {
+  printf("tildeRec start\n");
+  
+  while (word[i] != aft) {
+    if (i < 0) {
+      printf("base case reached, tilde failed\n");
+      return -1;
+    }
+    else {
+      int wordSize = getWordSize(word);
+      char* smolWord[wordSize];
+      for (int j = 0; j < i; j++) {
+	smolWord[j] = word[j];
+	smolWord[j+1] = '\0';
+      }
+      printf("recurring tilderec with a shorter word (removed from the end backwards)\n");
+      return tildeRec(word, smolWord, aft, i-1);
+    }
+  }
+  printf("tildeRec found the latest matching character withing the restriction bounds at i=%d\n", i);
+  return i;
+}
+
 int isWild(char c) {
-  if (c == '*' || c == '?' || c == '~') {
+  if (c == '*' || c == '?') {
     return 1;
   }
   return 0;
@@ -159,9 +197,9 @@ next an f
 This would match with abbbbcezzzzzzzf.
 
 To accomplish this:
-char* getLettersUntilWild(regex)
+char* getLettersUntilWild(parameters)
 
-Have a method to get and save the string immeaditly following the wild card.
+Have a method to get and save the string immeaditly preceeding  the wild card.
 This updates regIdx as it goes.
 
 If the wild card is a * or ?, the method chops off the last letter and RegIdx
@@ -174,6 +212,8 @@ Then, perform the proper wild call the next letter in regIdx and the one after
 determining the type of call
  - this will updates wordIdx has letters are checked
 
+This has since been modified to make use of recursion
+*/
 
 
 
