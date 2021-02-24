@@ -39,8 +39,10 @@ int getRegexSize(const char *regex) {
   return i;
 }
 
-int isWild(char c);
-int tildeRec(const char *word, char c, int i);
+int isWild(char c) {
+  return (c == '*' || c == '?');
+}
+//int tildeRec(const char *word, char *str; char c, int i);
 
 int match(const char *regex, const char *word, int restriction) {
     // TODO: Implement me!
@@ -52,14 +54,17 @@ int match(const char *regex, const char *word, int restriction) {
 
   int regSize = getRegexSize(regex);
   printf("The size of the regex being assessed is %d\n", regSize);
-
-  if (regSize == 1) { //if regex is size 1
+  if (regSize == 0) {
+    return 1;
+  }
+  if (regSize == 1) { //if regex is size 1, bunch of base cases
     printf("reg size is 1\n");
     if (regex[0] == '~') { //if it's a tilde
       if (getWordSize(word) <= restriction) { //check word size and return accordingly
 	return 0;
       }
       else {
+	printf("success!\n");
 	return 1;
       }
     }
@@ -76,7 +81,8 @@ int match(const char *regex, const char *word, int restriction) {
   }
   else { //regex is at least size 2
     printf("reg size is 2+\n");
-    if (isWild(regex[0]) == 0 && regex[0] !='~' && isWild(regex[1]) == 0) { //if neither the first nor second character of regex is a * or ?, and the first is not a ~ 
+    if (isWild(regex[0]) == 0 && isWild(regex[1]) == 0 && regex[0] != '~') {
+      //if neither the first nor second character of regex is a * or ?, and the first is not a ~ 
       if (regex[0] == word[0]) { //if the first character of regex and word match
 	printf("The first characters of regex and word match, recurring\n");
 	return match(regex++, word++, restriction); //recursion
@@ -89,28 +95,56 @@ int match(const char *regex, const char *word, int restriction) {
     else if (regex[1] == '*') { //STAR CASE
       printf("star case\n");
       if (word[0] == regex[0]) { //if word has the same letter as regex at the start
-	printf("recurring with the first letter of word removed\n");
-	return match(regex, word++, restriction); //uptick word and call again
+	printf("the first letter in word can be removed legally\n");
+	int i = 0;
+	//int worked = 0;
+	while (word[i] == regex[0]) {
+	  printf("the character at %d in word, %c, matches the tested character in regex, %c\n", i, word[i], regex[0]);
+	  if ( match(regex+2, word+i, restriction) == 0) { //out of bounds issues potentially
+	    printf("the removal of %d of that letter did not end in success, potentially trying to remove another\n", i);
+	    i++;
+	  }
+	  else {
+	    printf("a valid regex finale was found after removing %d %c's\n", i, regex[0]);
+	    // worked = 1;
+	    // break;
+	    return 1;
+	  }
+	}
+	//	if (worked == 1) {
+	// return match(regex,+2, word+i, restriction);
+	//}
+	return 0;
       }
       else { //word does not have that letter at the start
-	printf("Recurring with regex ticked up past the star\n");
+	printf("Recurring with regex ticked up past the star because 0 of that letter was present \n");
 	return match(regex+2, word, restriction); //regex gets upticked past the *, recursive call
       }
     }
     else if (regex[1] == '?') { //QUESTION CASE
       printf("question case\n");
       if (word[0] == regex[0]) { //If the letter is present
-	printf("letter present, recurring with regex ticked up past ? and word ticked up once\n");
-	return match(regex+2, word++, restriction); //uptick word, uptick regex past ?, recursive call
+	if (match(regex+2, word++, restriction)) { //if the regex expression finds the word by accepting the present letter,
+	    printf("there is a success if the letter before ?, %c, is accepted\n", regex[0]);
+	    return 1;
+	}
+	else if (match(regex+2, word, restriction)){
+     	  printf("accepting the letter before ?, %c, did not work. Trying continuing and keeping it around\n", regex[0]);
+	  return 1; //try keeping the letter around and uptock regex
+	}
+	else {
+	    return 0;
+	}
       }
       else { //letter not present
-	printf("letter not present, recurring with regex ticked up past ?\n");
+	
+	printf("letter not present, recurring with regex ticked up past ? (this can probably be moved to an if statement too)\n");
 	return match(regex+2, word, restriction); //uptick regex past ?, recursive call
       }
     }
     else if (regex[0] == '~') { //TILDE CASE
       printf("Tilde case\n");
-      if (regSize == 1) { //if tilde is the last character in regex
+      /*   if (regSize == 1) { //if tilde is the last character in regex
 	printf("Tilde is the last character\n");
 	if (wordSize > restriction) { //if the remainder of word is too big, false
 	  printf("returning false because the remainder of word is longer than restriction\n");
@@ -119,61 +153,25 @@ int match(const char *regex, const char *word, int restriction) {
 	printf("returning true because the remainder of word is shorter than the restriction\n");
 	return 1; //if the remainder of word fits within restriction, true
       }
-      else { //A letter comes after ~ in regex
-	printf("a letter comes after the tilde\n");
-	char aft = regex[1];
-	int lower = restriction;
-	if (wordSize < restriction) {
-	  lower = wordSize;
-	}
-	printf("working from lower = %d characters into word backwards\n", lower);
-	int hold = tildeRec(word, aft, lower);
-	if (hold == -1) {
-	  printf("The letter after the tilde never came\n");
-	  return 0;
-	}
-	else {
-	  printf("returning ticking up regex past the ~ and word ticked up hold=%d\n", hold);
-	  return match(regex++, word+hold, restriction); 
-	}
-      }
+      else { //A letter OR A ~ comes after ~ in regex */ //This should be a base case already handeled
+	for (int i = 0; i < restriction; i++) {
+	  if (match(regex++, word+i, restriction)) {
+	      return 1;
+	  }
+	    //	}
+        }
     }
     else {
       printf("UNKNOWN ERROR ABORT ABORT\n");
       return -1;
     }
   }
+	printf("This should never be reached\n");
+	return -2;
 }
 
-int tildeRec(const char* word, char* smolWord,  char aft, int i) {
-  printf("tildeRec start\n");
-  
-  while (word[i] != aft) {
-    if (i < 0) {
-      printf("base case reached, tilde failed\n");
-      return -1;
-    }
-    else {
-      int wordSize = getWordSize(word);
-      char* smolWord[wordSize];
-      for (int j = 0; j < i; j++) {
-	smolWord[j] = word[j];
-	smolWord[j+1] = '\0';
-      }
-      printf("recurring tilderec with a shorter word (removed from the end backwards)\n");
-      return tildeRec(word, smolWord, aft, i-1);
-    }
-  }
-  printf("tildeRec found the latest matching character withing the restriction bounds at i=%d\n", i);
-  return i;
-}
+//TILDE TILDE CASE
 
-int isWild(char c) {
-  if (c == '*' || c == '?') {
-    return 1;
-  }
-  return 0;
-} 
 
 /*
 I need to break up the regex expression into a series of regex commands

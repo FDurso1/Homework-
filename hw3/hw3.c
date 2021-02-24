@@ -65,7 +65,9 @@ int main(int argc, const char *argv[]) {
       curWord[j+1] = '\0';
     }
     printf("testing whether %s is found by %s\n", curWord, reggy);
-    match(reggy, curWord, 10);
+    if( match(reggy, curWord, 10)) {
+      printf("%s\n", curWord);
+    }
   }
 
 
