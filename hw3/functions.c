@@ -42,7 +42,6 @@ int getRegexSize(const char *regex) {
 int isWild(char c) {
   return (c == '*' || c == '?');
 }
-//int tildeRec(const char *word, char *str; char c, int i);
 
 int match(const char *regex, const char *word, int restriction) {
     // TODO: Implement me!
@@ -54,18 +53,20 @@ int match(const char *regex, const char *word, int restriction) {
 
   int regSize = getRegexSize(regex);
   printf("The size of the regex being assessed is %d\n", regSize);
-  if (regSize == 0) {
+  if (regSize == 0 && wordSize == 0) {
     return 1;
   }
+  else {
+    return 0;
+  }
   if (regSize == 1) { //if regex is size 1, bunch of base cases
-    printf("reg size is 1\n");
+    //    printf("reg size is 1\n");
     if (regex[0] == '~') { //if it's a tilde
       if (getWordSize(word) <= restriction) { //check word size and return accordingly
-	return 0;
+	return 1;
       }
       else {
-	printf("success!\n");
-	return 1;
+	return 0;
       }
     }
     else if (getWordSize(word) > 1) { //if it's a letter, and word is longer than 1 letter, return false
@@ -80,12 +81,12 @@ int match(const char *regex, const char *word, int restriction) {
     }
   }
   else { //regex is at least size 2
-    printf("reg size is 2+\n");
+    //  printf("reg size is 2+\n");
     if (isWild(regex[0]) == 0 && isWild(regex[1]) == 0 && regex[0] != '~') {
       //if neither the first nor second character of regex is a * or ?, and the first is not a ~ 
       if (regex[0] == word[0]) { //if the first character of regex and word match
 	printf("The first characters of regex and word match, recurring\n");
-	return match(regex++, word++, restriction); //recursion
+	return match(regex+1, word+1, restriction); //recursion
       }
       else {
 	printf("The first characters do not match, returning 0\n");
@@ -105,7 +106,7 @@ int match(const char *regex, const char *word, int restriction) {
 	    i++;
 	  }
 	  else {
-	    printf("a valid regex finale was found after removing %d %c's\n", i, regex[0]);
+	    printf("a valid regex finale for star case was found after removing %d %c's\n", i, regex[0]);
 	    // worked = 1;
 	    // break;
 	    return 1;
@@ -124,7 +125,7 @@ int match(const char *regex, const char *word, int restriction) {
     else if (regex[1] == '?') { //QUESTION CASE
       printf("question case\n");
       if (word[0] == regex[0]) { //If the letter is present
-	if (match(regex+2, word++, restriction)) { //if the regex expression finds the word by accepting the present letter,
+	if (match(regex+2, word+1, restriction)) { //if the regex expression finds the word by accepting the present letter,
 	    printf("there is a success if the letter before ?, %c, is accepted\n", regex[0]);
 	    return 1;
 	}
@@ -155,7 +156,7 @@ int match(const char *regex, const char *word, int restriction) {
       }
       else { //A letter OR A ~ comes after ~ in regex */ //This should be a base case already handeled
 	for (int i = 0; i < restriction; i++) {
-	  if (match(regex++, word+i, restriction)) {
+	  if (match(regex+1, word+i, restriction)) {
 	      return 1;
 	  }
 	    //	}

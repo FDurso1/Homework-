@@ -13,10 +13,9 @@ int match(const char *regex, const char *word, int restriction); //declare
 
 int main(int argc, const char *argv[]) {
   char words[ MAX_WORD_NUM ][ MAX_WORD_SIZE + 1 ]; 
-    // TODO: Implement me!
-  printf("main\n");
-  if (argc !=2) {
-    printf("specify a file name / just one file name");
+  int restriction = DEFAULT_RESTRICTION;
+
+  if (argc > 3) {
     return 1;
   }
    
@@ -24,39 +23,34 @@ int main(int argc, const char *argv[]) {
   fptr = fopen(argv[1], "r");
   
   if (!fptr) {
-    printf("file open error\n");
     return -1;
   }
-  
-  printf("fptr exists\n");
-  int size = -1;
-  fscanf(fptr, " %d", &size);
 
-  printf("size of file is %d\n", size);
+  if (argc == 3) {
+    char newRest = *argv[2];
+    int newRes = newRest + '0';
+    if (newRes >= 1) {
+      restriction = newRes;
+    }
+    else {
+      return -2;
+    }
+  }
   
+  int size = -1;
+  fscanf(fptr, " %d", &size); 
   read_file(fptr, words, size);
   fclose(fptr);
-  /*  printf("testing the words array\n");
-  for (int i = 0; i < size; i++) {
-    for (int j = 0; j < MAX_WORD_SIZE +1 && words[i][j] != '\n'; j++) {
-      printf("%c", words[i][j]);
-    }
-    printf("\n");
-    } */
+  
   char hold = '0';
   int input = 0;
-  int z = 0;
+  int index = 0;
   char reggy[MAX_INPUT_SIZE+1] = "\0";
+
   while ((input = scanf(" %c", &hold)) == 1) {
-     reggy[z] = hold;
-     z++;
+     reggy[index] = hold;
+     index++;
   }
-   printf("reggex expression: ");
-   /* for (int i = 0; i < z; i++) {
-    printf("%c", reggy[i]);
-  }
-  printf("\n"); */
-  printf("%s\n", reggy);
   
   for (int i = 0; i < size; i++) {
     char curWord[MAX_WORD_SIZE+1] = "";
@@ -65,13 +59,9 @@ int main(int argc, const char *argv[]) {
       curWord[j+1] = '\0';
     }
     printf("testing whether %s is found by %s\n", curWord, reggy);
-    if( match(reggy, curWord, 10)) {
-      printf("%s\n", curWord);
+    if( match(reggy, curWord, restriction)) {
+      printf("%s is found by %s\n", curWord, reggy);
     }
   }
-
-
-
-  
     return 0;
 }
