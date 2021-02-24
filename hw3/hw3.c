@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-
 #include "functions.h"
 
 
@@ -13,8 +12,7 @@ int match(const char *regex, const char *word, int restriction); //declare
 
 int main(int argc, const char *argv[]) {
   char words[ MAX_WORD_NUM ][ MAX_WORD_SIZE + 1 ]; 
-  int restriction = DEFAULT_RESTRICTION;
-
+  
   if (argc > 3) {
     return 1;
   }
@@ -25,12 +23,11 @@ int main(int argc, const char *argv[]) {
   if (!fptr) {
     return -1;
   }
-
+  int newRes = DEFAULT_RESTRICTION;
   if (argc == 3) {
-    char newRest = *argv[2];
-    int newRes = newRest + '0';
+    newRes = *argv[2] - '0';
     if (newRes >= 1) {
-      restriction = newRes;
+      printf("Restriction changed to %d\n", newRes);
     }
     else {
       return -2;
@@ -59,7 +56,7 @@ int main(int argc, const char *argv[]) {
       curWord[j+1] = '\0';
     }
     printf("testing whether %s is found by %s\n", curWord, reggy);
-    if( match(reggy, curWord, restriction)) {
+    if( match(reggy, curWord, newRes)) {
       printf("%s is found by %s\n", curWord, reggy);
     }
   }

@@ -56,7 +56,7 @@ int match(const char *regex, const char *word, int restriction) {
   if (regSize == 0 && wordSize == 0) {
     return 1;
   }
-  else {
+  else if (regSize == 0 || wordSize == 0){
     return 0;
   }
   if (regSize == 1) { //if regex is size 1, bunch of base cases
@@ -97,10 +97,13 @@ int match(const char *regex, const char *word, int restriction) {
       printf("star case\n");
       if (word[0] == regex[0]) { //if word has the same letter as regex at the start
 	printf("the first letter in word can be removed legally\n");
-	int i = 0;
+	if (match(regex+2, word, restriction) == 1) {
+	  return 1;
+	}
+	int i = 1;
 	//int worked = 0;
-	while (word[i] == regex[0]) {
-	  printf("the character at %d in word, %c, matches the tested character in regex, %c\n", i, word[i], regex[0]);
+	while (word[i-1] == regex[0]) {
+	  printf("the character at %d in word, %c, matches the tested character in regex, %c\n", i-1, word[i-1], regex[0]);
 	  if ( match(regex+2, word+i, restriction) == 0) { //out of bounds issues potentially
 	    printf("the removal of %d of that letter did not end in success, potentially trying to remove another\n", i);
 	    i++;
@@ -112,9 +115,6 @@ int match(const char *regex, const char *word, int restriction) {
 	    return 1;
 	  }
 	}
-	//	if (worked == 1) {
-	// return match(regex,+2, word+i, restriction);
-	//}
 	return 0;
       }
       else { //word does not have that letter at the start
@@ -137,11 +137,11 @@ int match(const char *regex, const char *word, int restriction) {
 	    return 0;
 	}
       }
-      else { //letter not present
-	
-	printf("letter not present, recurring with regex ticked up past ? (this can probably be moved to an if statement too)\n");
-	return match(regex+2, word, restriction); //uptick regex past ?, recursive call
+      else if (match(regex+2, word, restriction)){ //letter not present
+	printf("letter not found, success after ticking up past ?\n");
+	return 1; //uptick regex past ?, recursive call
       }
+	return 0;
     }
     else if (regex[0] == '~') { //TILDE CASE
       printf("Tilde case\n");
