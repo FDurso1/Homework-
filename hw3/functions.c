@@ -35,7 +35,6 @@ int match(const char *regex, const char *word, int restriction) {
     return 1;
   }
   else if (regSize == 0 && wordSize != 0){ //Base Case: Regex is empty but Word is not (return false)
-    printf("base 1\n");
     return 0;
   }
   if (regSize == 1) { //if Regex is just one character
@@ -44,20 +43,16 @@ int match(const char *regex, const char *word, int restriction) {
 	return 1;
       }
       else {
-	printf("base2\n");
 	return 0;
       }
     }
     else if (wordSize != 1) { //if that character's a letter, and word is 2+, return false
-      printf("base 3\n");
       return 0;
     }
     else if (wordSize == 1) { //if it's a letter and word is just one letter
-      printf("base 5\n");
       return regex[0] == word[0]; //return if they're the same character
     }
     else { //This should never happen
-      printf("base 6\n");
       return 0;
     }
   }
@@ -70,12 +65,11 @@ int match(const char *regex, const char *word, int restriction) {
 	return match(regex+1, word+1, restriction);
       }
       else {
-	printf("base 7\n");
 	return 0; //the first character of regex and word do not match, return false
       }
     }
     else if (regex[1] == '*') { //STAR CASE
-      printf("star, regex: %s, word: %s\n", regex, word);
+
       if (word[0] == regex[0]) { //if word has the same letter as regex at the start
 
 	if (match(regex+2, word, restriction) == 1) { //test the case where nothing is removed
@@ -83,10 +77,9 @@ int match(const char *regex, const char *word, int restriction) {
 	}
 	
 	int idx = 1;
-	while (/*idx <= wordSize && */word[idx-1] == regex[0]) {
-	  printf("char at idx-1, %d, %c, equals regex start, %s\n", idx-1, word[idx-1], regex);
+	while (idx <= wordSize && word[idx-1] == regex[0]) {
+
 	  if ( match(regex+2, word+idx, restriction) == 0) {
-	    printf("removing %d did not work\n", idx);
 	    //if removing {idx} of the letter that starts word did not work, try removing idx+1 next
 	    idx++;
 	  }
@@ -94,18 +87,16 @@ int match(const char *regex, const char *word, int restriction) {
 	    return 1;
 	  }
 	} //no matter how many letters were removed, no matching path was found.
-	printf("base 8\n");
 	return 0;
       }
       else { //word does not begin with the letter before the *, return match() with an updated regex
-	printf("no match before *, uptick, regex: %s, word: %s\n", regex+2, word);
 	return match(regex+2, word, restriction); //regex gets upticked past the *, recursive call
       }
     }
     else if (regex[1] == '?') { //QUESTION CASE
-      printf("question, regex: %s, word: %s\n", regex, word);
+
       if (word[0] == regex[0]) { //If the letter is present
-	printf("letter present\n");
+
 	if (match(regex+2, word+1, restriction)) { //try removing the letter and recurring
 	  return 1;
 	}
@@ -113,23 +104,18 @@ int match(const char *regex, const char *word, int restriction) {
 	  return 1;
 	}
 	else {
-	  printf("base 9\n");
 	  return 0; //neither removing nor keeping the letter made a match, return false
 	}
       }
       else {
-	printf("no match before ?, uptick, regex: %s, word: %s\n", regex+2, word);
-	return (match(regex+2, word, restriction));
-	//the first letter in word is not the letter before the ? 
+	return (match(regex+2, word, restriction)); //the first letter in word is not the letter before the ? 
       }
-      printf("base 10\n");
       return 0;
     }
     else if (regex[0] == '~') { //TILDE CASE
-      printf("tilde: regex: %s, word: %s\n", regex, word);
+      
       for (int i = 0; i <= restriction && i <= wordSize; i++) {
 	if (match(regex+1, word+i, restriction)) {
-	  printf("tilde: regex: %s, word: %s, i: %d\n", regex, word, i);
 	  return 1;
 	}
       }
