@@ -24,12 +24,10 @@ int main(int argc, const char *argv[]) {
     return -1;
   }
   int newRes = DEFAULT_RESTRICTION;
+
   if (argc == 3) {
     newRes = *argv[2] - '0';
-    if (newRes >= 1) {
-      printf("Restriction changed to %d\n", newRes);
-    }
-    else {
+    if (newRes < 1) {
       return -2;
     }
   }
@@ -48,17 +46,20 @@ int main(int argc, const char *argv[]) {
      reggy[index] = hold;
      index++;
   }
-  
+  int aSuccess = 0;
   for (int i = 0; i < size; i++) {
     char curWord[MAX_WORD_SIZE+1] = "";
     for (int j = 0; i < MAX_WORD_SIZE+1 && words[i][j] != '\n'; j++) {
       curWord[j] = words[i][j];
       curWord[j+1] = '\0';
     }
-    printf("testing whether %s is found by %s\n", curWord, reggy);
     if( match(reggy, curWord, newRes)) {
-      printf("%s is found by %s\n", curWord, reggy);
+      aSuccess = 1;
+      printf("%s\n", curWord);
     }
   }
-    return 0;
+  if (aSuccess == 0) {
+    printf("No match found for regex '%s'\n", reggy);
+  }
+  return 0;
 }

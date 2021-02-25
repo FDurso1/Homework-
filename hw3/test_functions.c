@@ -67,6 +67,7 @@ void test_match_regex_tilde_restriction() {
     assert(match("a~a", "abbba", TEST_RESTRICTION_4) == 1);
     assert(match("a~a", "azzzzazazazazzzzzzzzzzza", TEST_RESTRICTION_4) == 1);
     assert(match("a~a~a", "azzazazaa", TEST_RESTRICTION_3) == 1);
+    assert(match("a~a*b?c~~d~def*g", "azzcqdqddddefffg", TEST_RESTRICTION_2) == 1);
 }
 
 int main() {
