@@ -1,2 +1,7 @@
-//Francis Durso
-//FDurso1
+Francis Durso
+FDurso1
+
+My program relies on recursion which is typically called within if() statements. This way, the majority of my return statements will only return 1 on a successful case, 0 on an unsuccessful case, or a negative value on an error. I did this so that once a successful end case is reached, the return statements will return 1 all the way backwards through the stack instead of returning another call to match(). Since all the recursion was built this way, I did not need any functions besides match() to successfully call it. That said, having the isWild() function is useful to improve the base-cases at the start.
+
+Speaking of the base cases, the way the recursion works is when match() is called, a few base cases will be checked. For example, if both regex and word are empty, then this is a successful match. If regex is empty but word still has characters remaining, then the match is unsuccessful. Then, it checks whether there are two non-wild characters in a row, and if there is it recursively calls match with the first character removed from both regex and word. This is the exception to the "return a 1 or 0" rule above. Then, once it has a wild-expression to evaluate, match() will determine which wild expression is being called, and use a series of if() statements to test all interpretations of that wild statement. Each test involves a recursive call with the appropiate number of characters removed from regex and word.
+

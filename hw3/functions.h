@@ -21,6 +21,12 @@ int read_file(FILE *fp, char words[][MAX_WORD_SIZE + 1], int size);
  */
 int match(const char *regex, const char *word, int restriction);
 
+/** isWild function to check whether a given character is * or ?
+ * @param c the character being identified
+ * @return 1 if the character is * or ?, 0 otherwise
+ */
+int isWild(char c);
+
 // Feel free to add more helper functions! Make sure they are well commented.
 // If you do change the match function, note that it is called by the functions
 // in test_functions.c so make sure to change the call to match there accordingly.

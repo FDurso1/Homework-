@@ -11,6 +11,13 @@ hw3.o: hw3.c functions.h
 	$(GCC) -c hw3.c $(CFLAGS)
 
 # TODO: instructions to compile and run the test file
+test: functions.o test_functions.o
+	$(GCC) -o test functions.o test_functions.o
+	./test
+
+test.o: functions.h test_functions.c
+	$(GCC) -c functions.h test_functions.c $(CFLAGS)
+
 
 clean:
 	rm -f *.o hw3 test *~
