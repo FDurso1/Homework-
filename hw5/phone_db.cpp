@@ -21,6 +21,32 @@ struct person {
   std::string VOIP;  
 };
 
+//instead, have 2 maps
+//one has just lowercase name data stored in it, but points to the same structs
+//when listing, use the order from the lower map and find commands from the higher one?
+
+
+bool operator<(const string &left, const string &right) {
+  
+  std::stringstream ssLeft;
+  for (int i = 0; i < (int) left.length(); i++) {
+    ssLeft << std::tolower(left[i]);
+  }
+  std::string lowLeft = ssLeft.str();
+  
+  std::stringstream ssRight;
+  for (int i = 0; i < (int) right.length(); i++) {
+    ssRight << std::tolower(right[i]);
+  }
+  std::string lowRight = ssRight.str();
+
+  if (left<right) {
+    return true;
+  }
+  return false;
+}
+
+
 int newContact(std::map<string, person> &map) {
 
   std::string lastName;
@@ -37,9 +63,11 @@ int newContact(std::map<string, person> &map) {
   if (map.find(fullName) == map.end()) {
     person a {"", "", "", "", ""};
     map.insert(std::pair<string, person>(fullName,a));
+    std::cout << "Result: Contact created" << std::endl;
   }
   else {
     std::cout << "Error: Contact already exists" << std::endl;
+    return 1;
   }
   return 0;
 }
@@ -68,7 +96,7 @@ int deleteContact(std::map<string, person> &map) {
   std::string fullName = ss.str();
   
   if (map.erase(fullName) == 1) {
-    std::cout << "Contact deleted" << std::endl;
+    std::cout << "Result: Contact deleted" << std::endl;
   }
   else {
     std::cout << "Error: Contact not found" << std::endl;
@@ -112,7 +140,12 @@ int listNums(std::map<string, person> const &map) {
   std::stringstream ss;
   ss << lastName << ',' << firstName;
   std::string fullName = ss.str();
-  //  int itt = map.find(fullName);
+  
+  if(map.find(fullName) == map.end()) {
+    std::cout << "Error: Contact not found" << std::endl;
+    return 1;
+  }
+
   listNumsOfContact(map.find(fullName)->second);
   return 0;
 }
@@ -279,6 +312,7 @@ int delNumber(std::map<string, person> &map) {
     std::cout << "Error: No phone number of that type" << std::endl;
     return 1;
   }
+  std::cout << "Result: Phone number deleted" << std::endl;
   return 0;
 
 }
@@ -332,55 +366,62 @@ int loadList(std::map<string, person> &map) {
   
   char comm = ' ';
   //for the whole file
-  while (ifile >> comm) {
-    bool later = false;
+  bool later = false;
+  while (later || ifile >> comm) {
+    later = false;
     //if it's a P, create a new person and add any numbers present
-    if (comm == 'P' || later) {
-      later = false;
+    if (comm == 'P') {
       std::cout << "creating contact" << std::endl;
       //get their name
       string fullName;
       ifile >> fullName;
 
       //make the person (cannot initialize blank)
-      person *hold{"e", "e", "e", "e", "e"};
-      hold->HOME = "";
+      person curContact{"", "", "", "", ""};
+      /*hold->HOME = "";
       hold->WORK = "";
       hold->CELL = "";
       hold->FAX = "";
-      hold->VOIP = "";
+      hold->VOIP = ""; */
       //add them to the map
-      map.insert(std::pair<string, person>(fullName,hold));
-
+      map.insert(std::pair<string, person>(fullName,curContact));
+      person *hold = &(map.find(fullName)->second);
       //for that person add any numbers present
-      while (ifile >> comm) {
+      while (later == false && ifile >> comm) {
 	std::cout << "For " << fullName << " adding numbers" << std::endl;
         if (comm == 'W') {
   	  string numb;
 	  ifile >> numb;
 	  hold->WORK = numb;
+	  std::cout << "Work phone created for " << fullName << ": " << hold->WORK << std::endl;
         }
         else if (comm == 'H') {
 	  string numb;
 	  ifile >> numb;
 	  hold->HOME = numb;
+	  std::cout << "Home phone created for " << fullName << ": " << hold->HOME << std::endl;
+
         }
         else if (comm == 'C') {
 	  string numb;
 	  ifile >> numb;
 	  hold->CELL = numb;
+	  std::cout << "Cell phone created for " << fullName << ": " << hold->CELL << std::endl;
         }
         else if (comm == 'F') {
 	  string numb;
 	  ifile >> numb;
 	  hold->FAX = numb;
+	  std::cout << "Fax phone created for " << fullName << ": " << hold->FAX << std::endl;
         }
         else if (comm == 'V') {
 	  string numb;
 	  ifile >> numb;
 	  hold->VOIP = numb;
+	  std::cout << "VOIP phone created for " << fullName << ": " << hold->VOIP << std::endl;
         }
 	else if (comm == 'P') {
+	  std::cout << "Next contact found" << std::endl;
 	  later = true;
 	}
 	else {
@@ -388,13 +429,14 @@ int loadList(std::map<string, person> &map) {
 	  return 1;
 	}
       }
-      std::cout << "Ending numbers for that contact" << std::endl;
-    } //end of inner while loop
+      std::cout << "Ending numbers for previuos contact" << std::endl;
+    } 
     else { //if the command is not a P
+      std::cout << "odd character detected" << comm << std::endl;
       std::cout << "Error: Invalid database file (2)" << std::endl;
       return 1;
     }
- }
+  }
  return 0;
 }
 
