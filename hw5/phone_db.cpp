@@ -32,10 +32,15 @@ int newContact(std::map<string, person> &map) {
 
   std::stringstream ss;
   ss << lastName << ',' << firstName;
-  person a {"", "", "", "", ""};
-
   std::string fullName = ss.str();
-  map.insert(std::pair<string, person>(fullName,a)); 
+
+  if (map.find(fullName) == map.end()) {
+    person a {"", "", "", "", ""};
+    map.insert(std::pair<string, person>(fullName,a));
+  }
+  else {
+    std::cout << "Error: Contact already exists" << std::endl;
+  }
   return 0;
 }
 
@@ -45,7 +50,6 @@ int listNames(std::map<string, person> const &map) {
   for (std::map<string,person>::const_iterator it = map.cbegin();
        it != map.cend(); it++) {
     cout << "Result: " << it->first << std::endl;
-    cout << "Info: Work phone: " << it->second.WORK << std::endl;
   }
   return 0;
 }
@@ -62,11 +66,14 @@ int deleteContact(std::map<string, person> &map) {
   std::stringstream ss;
   ss << lastName << ',' << firstName;
   std::string fullName = ss.str();
-  /*
-  for (std::map<string,person>::iterator it = map.begin(); it != map.end(); it++) {
-
-  } */
-  map.erase(fullName);
+  
+  if (map.erase(fullName) == 1) {
+    std::cout << "Contact deleted" << std::endl;
+  }
+  else {
+    std::cout << "Error: Contact not found" << std::endl;
+    return 1;
+  }
   return 0;
 }
 
@@ -110,6 +117,39 @@ int listNums(std::map<string, person> const &map) {
   return 0;
 }
 
+int isValidType(string type) {
+  if (type.compare("WORK") == 0 || type.compare("HOME") == 0 ||
+    type.compare("CELL") == 0 || type.compare("FAX") == 0 ||
+      type.compare("VOIP") == 0) {
+    return 0;
+  }
+  return 1;
+}
+
+int isValidNum(string num) {
+  std::string valids = "0123456789";
+  //std::string cur = "";
+  char curc = ' ';
+  for (int i = 0; i < (int) num.length(); i++) {
+    //cur = num.substr(i,i);
+    curc = num.at(i);
+    string cur(1, curc);
+    std::cout << "Info: analyzing " << cur << std::endl;
+    if (i == 0 || i == (int) num.length()-1) {
+      if (valids.find(cur) == std::string::npos) {
+	std::cout << "Info: Error found at bounds" << std::endl;
+	return 1;
+      }
+    }
+    else if (valids.find(cur) == std::string::npos && (cur.compare("-") != 0)) {
+      std::cout << "Info: Error in middle" << std::endl;
+      return 1;
+    }
+  }
+  std::cout << "Info: Succesful read" << std::endl;
+  return 0;
+}
+
 int addNumber(std::map<string, person> &map) {
 
   std::string lastName;
@@ -123,29 +163,77 @@ int addNumber(std::map<string, person> &map) {
   ss << lastName << ',' << firstName;
   std::string fullName = ss.str();
 
-  person curContact = map.find(fullName)->second;
-  
+  if (map.find(fullName) == map.end()) {
+    std::cout << "Error: Contact not found" << std::endl;
+    return 1;
+  }
+
+  person *curContact = &(map.find(fullName)->second);
   std::string type;
   cin >> type;
+
+  if (isValidType(type) != 0) {
+    std::cout << "Error: Invalid phone number type" << std::endl;
+    return 1;
+  }
+
+  std::string num;
+  cin >> num;
+
+  if (isValidNum(num) != 0) {
+    std::cout << "Error: Not a valid phone number" << std::endl;
+    return 1;
+  }
   
   if (type.compare("WORK") == 0) {
-    cin >> curContact.WORK;
-    std::cout << "Work Phone: " << curContact.WORK << std::endl;
+    if (curContact->WORK == "") {
+      std::cout << "Result: Phone number added" << std::endl;
+    }
+    else {
+      std::cout << "Result: Phone number replaced" << std::endl;
+    }
+    curContact->WORK = num;
   }
   else if (type.compare("HOME") == 0) {
-    cin >> curContact.HOME;
+    if (curContact->HOME == "") {
+      std::cout << "Result: Phone number added" << std::endl;
+    }
+    else {
+      std::cout << "Result: Phone number replaced" << std::endl;
+    }
+    curContact->HOME = num;
   }
   else if (type.compare("CELL") == 0) {
-    cin >> curContact.CELL;
+    if (curContact->CELL == "") {
+      std::cout << "Result: Phone number added" << std::endl;
+    }
+    else {
+      std::cout << "Result: Phone number replaced" << std::endl;
+    }
+    curContact->CELL = num;
   }
   else if (type.compare("FAX") == 0) {
-    cin >> curContact.FAX;
+    if (curContact->FAX == "") {
+      std::cout << "Result: Phone number added" << std::endl;
+    }
+    else {
+      std::cout << "Result: Phone number replaced" << std::endl;
+    }
+    curContact->FAX = num;
   }
   else if (type.compare("VOIP") == 0) {
-    cin >> curContact.VOIP;
+    if (curContact->VOIP == "") {
+      std::cout << "Result: Phone number added" << std::endl;
+    }
+    else {
+      std::cout << "Result: Phone number replaced" << std::endl;
+    }
+    curContact->VOIP = num;
   }
   else {
     std::cout << "Info: Error assigning number type" << std::endl;
+    std::cout << "Error: Invalid phone number type" << std::endl;
+    return 1;
   }
   return 0;
 }
@@ -162,29 +250,34 @@ int delNumber(std::map<string, person> &map) {
   std::stringstream ss;
   ss << lastName << ',' << firstName;
   std::string fullName = ss.str();
-
-  person curContact = map.find(fullName)->second;
+  if (map.find(fullName) == map.end()) {
+    std::cout << "Error: Contact not found" << std::endl;
+    return 1;
+  }
+  person *curContact = &(map.find(fullName)->second);
 
   std::string type;
   cin >> type;
   
-  if (type.compare("WORK") == 0) {
-    curContact.WORK = ""; 
+  if (type.compare("WORK") == 0 && curContact->WORK != "") {
+    curContact->WORK = ""; 
   }
-  else if (type.compare("HOME") == 0) {
-    curContact.HOME = "";
+  else if (type.compare("HOME") == 0 && curContact->HOME != "") {
+    curContact->HOME = "";
   }
-  else if (type.compare("CELL") == 0) {
-    curContact.CELL = "";
+  else if (type.compare("CELL") == 0 && curContact->CELL != "") {
+    curContact->CELL = "";
   }
-  else if (type.compare("FAX") == 0) {
-   curContact.FAX = "";
+  else if (type.compare("FAX") == 0 && curContact->FAX != "") {
+   curContact->FAX = "";
   }
-  else if (type.compare("VOIP") == 0) {
-    curContact.VOIP = "";
+  else if (type.compare("VOIP") == 0 && curContact->VOIP != "") {
+    curContact->VOIP = "";
   }
   else {
     std::cout << "Info: Error deleting number type" << std::endl;
+    std::cout << "Error: No phone number of that type" << std::endl;
+    return 1;
   }
   return 0;
 
@@ -195,13 +288,30 @@ int saveList(std::map<string, person> const &map) {
   string name;
   cin >> name;
   std::ofstream outFile(name);
+  if (outFile.is_open() == false) {
+    std::cout << "Error: Could not open output file" << std::endl;
+  }
+  
+  
   for (auto it = map.begin();it != map.end(); it++) {
     outFile << "P " << it->first << std::endl;
-    outFile << "W " << it->second.WORK << std::endl;
-    outFile << "H " << it->second.HOME << std::endl;
-    outFile << "C " << it->second.CELL << std::endl;
-    outFile << "F " << it->second.FAX << std::endl;
-    outFile << "V " << it->second.VOIP << std::endl;
+    if (it->second.WORK != "") {
+      outFile << "W " << it->second.WORK << std::endl;
+    }
+    if (it->second.HOME != "") {
+      outFile << "H " << it->second.HOME << std::endl;
+    }
+    if (it->second.CELL != "") {
+      outFile << "C " << it->second.CELL << std::endl;
+    }
+    if (it->second.FAX != "") {
+      outFile << "F " << it->second.FAX << std::endl;
+    }
+    if (it->second.VOIP != "") {
+      outFile << "V " << it->second.VOIP << std::endl;
+    }
+
+
   }
   return 0;
 }
@@ -214,57 +324,75 @@ int loadList(std::map<string, person> &map) {
     std::cout << "failed to open file" << std::endl;
     return 1;
   }
-  //TODO: clear current map
+  
+  //Clear current map
   for (auto it = map.begin();it != map.end(); it++) {
-    //code from delNumber once that works
+    map.erase(it->first);
   }
   
   char comm = ' ';
   //for the whole file
   while (ifile >> comm) {
+    bool later = false;
     //if it's a P, create a new person and add any numbers present
-    if (comm == 'P') {
+    if (comm == 'P' || later) {
+      later = false;
+      std::cout << "creating contact" << std::endl;
       //get their name
       string fullName;
       ifile >> fullName;
 
-      //make the person
-      person hold{"", "", "", "", ""};
-
+      //make the person (cannot initialize blank)
+      person *hold{"e", "e", "e", "e", "e"};
+      hold->HOME = "";
+      hold->WORK = "";
+      hold->CELL = "";
+      hold->FAX = "";
+      hold->VOIP = "";
       //add them to the map
       map.insert(std::pair<string, person>(fullName,hold));
 
       //for that person add any numbers present
       while (ifile >> comm) {
+	std::cout << "For " << fullName << " adding numbers" << std::endl;
         if (comm == 'W') {
   	  string numb;
 	  ifile >> numb;
-	  hold.WORK = numb;
+	  hold->WORK = numb;
         }
         else if (comm == 'H') {
 	  string numb;
 	  ifile >> numb;
-	  hold.HOME = numb;
+	  hold->HOME = numb;
         }
         else if (comm == 'C') {
 	  string numb;
 	  ifile >> numb;
-	  hold.CELL = numb;
+	  hold->CELL = numb;
         }
         else if (comm == 'F') {
 	  string numb;
 	  ifile >> numb;
-	  hold.FAX = numb;
+	  hold->FAX = numb;
         }
         else if (comm == 'V') {
 	  string numb;
 	  ifile >> numb;
-	  hold.VOIP = numb;
+	  hold->VOIP = numb;
         }
+	else if (comm == 'P') {
+	  later = true;
+	}
+	else {
+	  std::cout << "Error: Invalid database file" << std::endl;
+	  return 1;
+	}
       }
+      std::cout << "Ending numbers for that contact" << std::endl;
     } //end of inner while loop
     else { //if the command is not a P
-      std::cout << "Error reading in data from file" << std::endl;
+      std::cout << "Error: Invalid database file (2)" << std::endl;
+      return 1;
     }
  }
  return 0;
