@@ -1,0 +1,8 @@
+Francis Durso
+FDurso1
+
+My program uses one map, with the key being the name of a contact, in all lowercase, using the last,first format. Its value is a struct containing 6 strings, the first is the name of the contact as the user inputted it (case maintained), and the other 5 are the contact's phone numbers. This way, as new contacts are inserted into the map, they will automatically be sorted since their key is in all lowercase. When I need their original name, such as for listing, I can reference their name variable. For saving and recovering, I figured simplicity would be best. Thus, I write all the values from the map using X: <data> where X is a given character depending on what data is being stored/read. For example, creating a contact uses P (for person), and has their lowercase name as the data. N will read in their actual name, W will read in their work phone, C their cell phone, and so on.
+
+I decided a switch-case in the main would be clearest, with a number of helper functions being used to perform the commands. The only non-command helper functions are string toLower(string), which returns the string input but all lowercase, getFullName() with takes in user input to return full name of the contact (which is necessary for multiple commands), and bool isSame(str, str), which returns whether two strings are the same when both made lowercase.
+
+I believe my code is fully functional. 

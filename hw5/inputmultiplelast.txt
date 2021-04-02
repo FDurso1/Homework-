@@ -1,0 +1,17 @@
+C Smith john
+C smITH mary
+C sMith paul
+N smith john CELL 410
+N SMITH mary FAX 540
+N sMiTH paul VOIP 110
+L
+P smith mary
+N smith paul FAX 500
+P smith PAUL
+D smith mary
+L
+X smith paul FAX
+P smith pauL
+D smith john
+L
+Q

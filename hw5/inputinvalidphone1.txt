@@ -1,0 +1,74 @@
+C Lightning McQueen
+C Mater Tow
+C Doc Hudson
+C Sally Carrera
+C Cruz Ramirez
+C Luigi Guido
+C Flo Ramone
+N Lightning McQueen WORK 116-356-3123
+N Lightning McQueen HOME 116-356-3123
+N Lightning McQueen CELL 116-356-3123
+N Lightning McQueen VOIP 116-356-3123
+N Doc Hudson WORK 986-555-4509
+N Sally Carrera FAX 222-555-9577
+N Sally Carrera VOIP 213-334-6789
+N Sally Carrera CELL 456-333-1212
+N Mater Tow HOME 981-555-1853
+N Cruz Ramirez WORK 308-555-2648
+N Cruz Ramirez CELL 066-555-2436
+N Luigi Guido WORK 704-555-8519
+N Luigi Guido VOIP 892-555-6117
+N Flo Ramone CELL 148-555-1664
+N Flo Ramone HOME 104-555-5849
+N Mater Tow CELL 322-555-2636
+L
+P Lightning McQueen
+P Mater Tow
+P Doc Hudson
+P Sally Carrera
+P Cruz Ramirez
+P Luigi Guido
+P Flo Ramone
+S saved_db.txt
+N Lightning McQueen home 11356123
+N Lightning McQueen cell 116
+N Lightning McQueen CELL 11
+N Lightning McQueen HOME 11356123
+N Lightning McQueen CELL 116
+N Lightning McQueen CELL 11-
+N Lightning McQueen HOME -116-356-3123
+N Lightning McQueen HOME -116-3-5-6-8888-
+N Cruz Ramirez WORK 308--55-5--2648
+N Cruz Ramirez CELL 0--7
+N Luigi Guido WORK 79-04-5-55-8519
+N Luigi Guido VOIP --892-555-6117--
+N Flo Ramone CELL 1-48-555-166-4-
+N Flo Ramone HOME -104-555-58-49
+N Mater Tow CELL ---322-555-2636
+L
+P Lightning McQueen
+P Mater Tow
+P Doc Hudson
+P Sally Carrera
+P Cruz Ramirez
+P Luigi Guido
+P Flo Ramone
+S saved_db2.txt
+L
+P Lightning McQueen
+P Mater Tow
+P Doc Hudson
+P Sally Carrera
+X Lightning McQueen HOME
+X Lightning McQueen HOME
+N Lightning McQueen home ----
+N Lightning McQueen HOME ----
+N Lightning McQueen HOME 0000
+P Lightning McQueen
+P Mater Tow
+P Doc Hudson
+P Sally Carrera
+P Cruz Ramirez
+P Luigi Guido
+P Flo Ramone
+Q

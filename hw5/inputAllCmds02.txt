@@ -1,0 +1,32 @@
+C Granger Hermione
+C Weasley Ron
+C Malfoy Draco
+N Granger Hermione CELL 3457-543-542
+C granger hermione
+L
+N Weasely Ron home 32-4534-234
+N Weasley Ron home 4321
+N malfoy draco VOIP 4321-5432
+P Malfoy Draco
+P Weasley Ron
+P Granger Hermione
+N Weasely Ron WORK -2342
+N Weasley Ron WORK -5432
+N Weasley Ron WORK a4329-5431
+N Weasley Ron WORK 4537-5432-543-
+P Weasley Ron
+L
+S file.txt        
+D Weasley Ron
+L
+P Granger Hermione
+X Granger Hermione CELL
+X Granger Hermione WORK
+P granger hermione
+L
+R file.txt
+L
+P Granger Hermione
+P Weasley Ron
+P Malfoy Draco
+Q

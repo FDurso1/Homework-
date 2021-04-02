@@ -1,0 +1,33 @@
+Result: Contact created
+Result: Contact created
+Result: Contact created
+Result: Phone number added
+Error: Contact already exists
+Result: Granger,Hermione
+Result: Malfoy,Draco
+Result: Weasley,Ron
+Error: Contact not found
+Error: Invalid phone number type
+Result: Phone number added
+Result: VOIP,4321-5432
+Result: CELL,3457-543-542
+Error: Contact not found
+Error: Not a valid phone number
+Error: Not a valid phone number
+Error: Not a valid phone number
+Result: Granger,Hermione
+Result: Malfoy,Draco
+Result: Weasley,Ron
+Result: Contact deleted
+Result: Granger,Hermione
+Result: Malfoy,Draco
+Result: CELL,3457-543-542
+Result: Phone number deleted
+Error: No phone number of that type
+Result: Granger,Hermione
+Result: Malfoy,Draco
+Result: Granger,Hermione
+Result: Malfoy,Draco
+Result: Weasley,Ron
+Result: CELL,3457-543-542
+Result: VOIP,4321-5432

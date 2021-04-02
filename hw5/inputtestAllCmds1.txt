@@ -1,0 +1,43 @@
+C Mai Irons
+C Lissette Frese
+C Ora wilchER
+
+N lissette frese VOIP 27-79
+N aj aj CELL 444-556
+
+C JoRDon Kahan
+D mai irons
+L
+C Erik Hock
+
+C John Lax
+N john lax CELL 454-56-76
+N john lax HOME 711-343
+N john lax VOIP 873-189
+N john lax WORK 738-089-3701
+N john lax CELL 986-642-a64
+N john lax CELL 94-
+N john LAX FAX 464-61-1190
+N jordon kahan CELL 887-970-2185
+N erik hock FAX 896-562-3896
+
+P john lax
+P ora wilcher
+P aj aj
+P erik hock
+
+X john lax HOME
+X mai irons CELL
+S database.txt
+
+D lissette frese
+C AJ AJ
+
+R database.txt
+L
+P john lax
+P mai irons
+P Jim Bell
+Q
+
+C al by

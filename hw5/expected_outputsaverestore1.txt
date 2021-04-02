@@ -1,0 +1,56 @@
+Result: Contact created
+Result: Contact created
+Result: Contact created
+Result: Contact created
+Result: Contact created
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Akselsen,Noyabrina
+Result: Frederiksen,Diodotus
+Result: Gotti,Thyrza
+Result: Kaori,Lupu
+Result: Nishimura,Kliment
+Result: FAX,222-555-9577
+Result: WORK,986-555-4509
+Result: CELL,066-555-2436
+Result: HOME,981-555-1853
+Result: WORK,308-555-2648
+Result: VOIP,892-555-6117
+Result: WORK,704-555-8519
+Result: CELL,148-555-1664
+Result: HOME,104-555-5849
+Result: VOIP,322-555-2636
+Result: Contact deleted
+Result: Contact deleted
+Result: Contact deleted
+Result: Contact deleted
+Result: Contact deleted
+Error: Contact not found
+Error: Contact not found
+Error: Contact not found
+Error: Contact not found
+Error: Contact not found
+Result: Akselsen,Noyabrina
+Result: Frederiksen,Diodotus
+Result: Gotti,Thyrza
+Result: Kaori,Lupu
+Result: Nishimura,Kliment
+Result: FAX,222-555-9577
+Result: WORK,986-555-4509
+Result: CELL,066-555-2436
+Result: HOME,981-555-1853
+Result: WORK,308-555-2648
+Result: VOIP,892-555-6117
+Result: WORK,704-555-8519
+Result: CELL,148-555-1664
+Result: HOME,104-555-5849
+Result: VOIP,322-555-2636
+Error: Contact already exists

@@ -1,0 +1,33 @@
+Result: Contact created
+Result: Contact created
+Result: Contact created
+Result: Phone number added
+Error: Contact not found
+Result: Contact created
+Result: Contact created
+Result: Contact deleted
+Result: ELL,444-556
+Result: JoRDon,Kahan
+Result: Lissette,Frese
+Result: Ora,wilchER
+Result: Contact created
+Result: Contact created
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Error: Not a valid phone number
+Error: Not a valid phone number
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: CELL,454-56-76
+Result: FAX,464-61-1190
+Result: HOME,711-343
+Result: VOIP,873-189
+Result: WORK,738-089-3701
+Error: Contact not found
+Result: FAX,896-562-3896
+Result: Phone number deleted
+Error: Contact not found
+Result: Contact created

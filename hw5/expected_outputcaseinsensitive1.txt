@@ -1,0 +1,14 @@
+Result: Contact created
+Result: Contact created
+Result: granger,HERMIONE
+Result: Longbottom,Neville
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: CELL,955-555-2388
+Result: HOME,350-555-3237
+Result: CELL,447-555-9256
+Result: FAX,527-555-1352
+Result: VOIP,934-555-9389

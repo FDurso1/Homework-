@@ -1,0 +1,20 @@
+Result: Contact created
+Result: Contact created
+Result: Contact created
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Smith,john
+Result: smITH,mary
+Result: sMith,paul
+Result: FAX,540
+Result: Phone number added
+Result: FAX,500
+Result: VOIP,110
+Result: Contact deleted
+Result: Smith,john
+Result: sMith,paul
+Result: Phone number deleted
+Result: VOIP,110
+Result: Contact deleted
+Result: sMith,paul

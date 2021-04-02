@@ -1,0 +1,42 @@
+C Frederiksen Diodotus
+C Gotti Thyrza
+C Kaori Lupu
+C Nishimura Kliment
+C Akselsen Noyabrina
+N Frederiksen Diodotus WORK 986-555-4509
+N Frederiksen Diodotus FAX 222-555-9577
+N Gotti Thyrza HOME 981-555-1853
+N Gotti Thyrza WORK 308-555-2648
+N Gotti Thyrza CELL 066-555-2436
+N Kaori Lupu WORK 704-555-8519
+N Kaori Lupu VOIP 892-555-6117
+N Nishimura Kliment CELL 148-555-1664
+N Akselsen Noyabrina HOME 104-555-5849
+N Akselsen Noyabrina VOIP 322-555-2636
+L
+P Frederiksen Diodotus
+P Gotti Thyrza
+P Kaori Lupu
+P Nishimura Kliment
+P Akselsen Noyabrina
+S saved_db.txt
+D Frederiksen Diodotus
+D Gotti Thyrza
+D Kaori Lupu
+D Nishimura Kliment
+D Akselsen Noyabrina
+L
+P Frederiksen Diodotus
+P Gotti Thyrza
+P Kaori Lupu
+P Nishimura Kliment
+P Akselsen Noyabrina
+R saved_db.txt
+L
+P Frederiksen Diodotus
+P Gotti Thyrza
+P Kaori Lupu
+P Nishimura Kliment
+P Akselsen Noyabrina
+C Frederiksen Diodotus
+Q

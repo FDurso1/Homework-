@@ -1,0 +1,122 @@
+Result: Contact created
+Result: Contact created
+Result: Contact created
+Result: Contact created
+Result: Contact created
+Result: Contact created
+Result: Contact created
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Phone number added
+Result: Cruz,Ramirez
+Result: Doc,Hudson
+Result: Flo,Ramone
+Result: Lightning,McQueen
+Result: Luigi,Guido
+Result: Mater,Tow
+Result: Sally,Carrera
+Result: CELL,116-356-3123
+Result: HOME,116-356-3123
+Result: VOIP,116-356-3123
+Result: WORK,116-356-3123
+Result: CELL,322-555-2636
+Result: HOME,981-555-1853
+Result: WORK,986-555-4509
+Result: CELL,456-333-1212
+Result: FAX,222-555-9577
+Result: VOIP,213-334-6789
+Result: CELL,066-555-2436
+Result: WORK,308-555-2648
+Result: VOIP,892-555-6117
+Result: WORK,704-555-8519
+Result: CELL,148-555-1664
+Result: HOME,104-555-5849
+Error: Invalid phone number type
+Error: Invalid phone number type
+Result: Phone number replaced
+Result: Phone number replaced
+Result: Phone number replaced
+Error: Not a valid phone number
+Error: Not a valid phone number
+Error: Not a valid phone number
+Result: Phone number replaced
+Result: Phone number replaced
+Result: Phone number replaced
+Error: Not a valid phone number
+Error: Not a valid phone number
+Error: Not a valid phone number
+Error: Not a valid phone number
+Result: Cruz,Ramirez
+Result: Doc,Hudson
+Result: Flo,Ramone
+Result: Lightning,McQueen
+Result: Luigi,Guido
+Result: Mater,Tow
+Result: Sally,Carrera
+Result: CELL,116
+Result: HOME,11356123
+Result: VOIP,116-356-3123
+Result: WORK,116-356-3123
+Result: CELL,322-555-2636
+Result: HOME,981-555-1853
+Result: WORK,986-555-4509
+Result: CELL,456-333-1212
+Result: FAX,222-555-9577
+Result: VOIP,213-334-6789
+Result: CELL,0--7
+Result: WORK,308--55-5--2648
+Result: VOIP,892-555-6117
+Result: WORK,79-04-5-55-8519
+Result: CELL,148-555-1664
+Result: HOME,104-555-5849
+Result: Cruz,Ramirez
+Result: Doc,Hudson
+Result: Flo,Ramone
+Result: Lightning,McQueen
+Result: Luigi,Guido
+Result: Mater,Tow
+Result: Sally,Carrera
+Result: CELL,116
+Result: HOME,11356123
+Result: VOIP,116-356-3123
+Result: WORK,116-356-3123
+Result: CELL,322-555-2636
+Result: HOME,981-555-1853
+Result: WORK,986-555-4509
+Result: CELL,456-333-1212
+Result: FAX,222-555-9577
+Result: VOIP,213-334-6789
+Result: Phone number deleted
+Error: No phone number of that type
+Error: Invalid phone number type
+Error: Not a valid phone number
+Result: Phone number added
+Result: CELL,116
+Result: HOME,0000
+Result: VOIP,116-356-3123
+Result: WORK,116-356-3123
+Result: CELL,322-555-2636
+Result: HOME,981-555-1853
+Result: WORK,986-555-4509
+Result: CELL,456-333-1212
+Result: FAX,222-555-9577
+Result: VOIP,213-334-6789
+Result: CELL,0--7
+Result: WORK,308--55-5--2648
+Result: VOIP,892-555-6117
+Result: WORK,79-04-5-55-8519
+Result: CELL,148-555-1664
+Result: HOME,104-555-5849
