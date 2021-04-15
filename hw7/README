@@ -1,0 +1,8 @@
+Francis Durso
+fdurso1
+
+Currently stumped on how to proceed, though I understand how it should
+work theoretically. Each CTrie will hold a map and a boolean. The boolean
+says whether it is an end point. The map will a key of characters (letters)
+and values of CTrie's. By accessing a CTrie, you can then access the elements
+in its map in order to find out how far the tree goes. 

@@ -1,3 +1,4 @@
+
 #ifndef CTRIE_H
 #define CTRIE_H
 
@@ -16,7 +17,7 @@ public:
    * Copy Constructor.
    * \param rhs A const reference to the input to copy.
    */
-  CTrie(const CTrie& rhs);
+  CTrie(const CTrie& rhs);  
 
   /**
    * Destructor.
@@ -90,11 +91,28 @@ public:
   /**
    * \return true if this node is an endpoint, false otherwise
    */
-  bool isEndpoint() const; 
+  bool isEndpoint() const;
+  /*
+  bool getEP() {
+    return endPoint;
+  }
 
+  std::map<char, CTrie*> getChildren() {
+    return children;
+  }
+
+  void setEP(bool bul) {
+    endPoint = bul;
+  }
+  */
+  //
+  bool endPoint;
+  std::map<char, CTrie*> children;
 private:
   // TODO: fields
-
+  //bool endPoint;
+  //std::map<char, CTrie*> children;
+  
   // TODO: helper functions
 };
 
