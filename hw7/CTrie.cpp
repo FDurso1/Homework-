@@ -26,8 +26,7 @@ CTrie::CTrie() {
    * \param rhs A const reference to the input to copy.
    */
 CTrie::CTrie(const CTrie& rhs){
-  *this = rhs; //using overloaded opperator
-  
+  *this = rhs; //using overloaded opperator  
 }
 
 
@@ -36,22 +35,27 @@ CTrie::CTrie(const CTrie& rhs){
    */
 
 void deleteMe(CTrie* lhs) {
+  std::cout << "DeleteMe called" << std::endl;
   std::map<char, CTrie*>::iterator it = lhs->children.begin();
   while (it != lhs->children.end()) {
-    deleteMe(it->second);
-    delete it->second;
+    std::cout << "There was a child found, recurring for that child" << std::endl; 
+    deleteMe(it->second); //every time it finds a new child it recurrs
+    //and it loops this process for every child on the current level
+    it++;
   }
+  delete it->second;
+  std::cout << "No child detected at this level, deleting current CTrie" << std::endl;
+  //every time it does not find a child it deletes the current CTrie
 }
 
 CTrie::~CTrie() {
-  deleteMe(this);
+  std::cout << "Destructor called" << std::endl;
+  deleteMe(this); //calls the recursive function
+  std::cout << "Destructor concluded" << std::endl;
 }
 
   /**
-   * Assignment operator.
-
-   person a {fullName, "", "", "", "", ""};
-    map.insert(std::pair<string, person>(lowFull,a));
+   * Assignment operators
    */
 
 CTrie setCTrieEqual(CTrie* lhs, const CTrie &rhs) {
@@ -71,14 +75,14 @@ CTrie setCTrieEqual(CTrie* lhs, const CTrie &rhs) {
   return *lhs;
 }
 
-CTrie & CTrie:: operator=(const CTrie &rhs) {
+CTrie & CTrie::operator=(const CTrie &rhs) {
 
   if (this != &rhs) {
     std::cout << "Deep copying" << std::endl;
     //remove all of *this recursively
+    deleteMe(this);
     //then recursively copy all of rhs
-    CTrie* newLeft = new CTrie;
-    *this = setCTrieEqual(newLeft, rhs);
+    *this = setCTrieEqual(this, rhs);
     std::cout << "Deep copy done" << std::endl;
   }
   return *this;
@@ -90,9 +94,31 @@ CTrie & CTrie:: operator=(const CTrie &rhs) {
    * \return a reference to the CTrie object
    */
 
-CTrie& CTrie::operator+=(const std::string& word) {
+void addEquals(const std::string& word, CTrie* rhs) {
 
-  //TODO
+  char c = word.at(0);
+  
+  //This iterator and if/else structures are based on those found in hw7 hints.
+  std::map<char, CTrie *>::const_iterator cit = rhs->children.find(c);
+  if (cit == rhs->children.end()) {
+    // no such child
+    CTrie* nextLevel = new CTrie;
+    rhs->children.insert(std::pair<char, CTrie*>(c, nextLevel));
+  }
+  // else, cit->second is the pointer to the child node
+
+  if (word.length() > 1) { //word not done yet
+    std::string wordCopy = word.substr(1,word.length()-2);
+    //removes the first letter in word
+    addEquals(wordCopy, cit->second);
+  }
+  else { //last character in word
+    rhs->endPoint = true;
+  }
+}
+
+CTrie& CTrie::operator+=(const std::string& word) {
+  addEquals(word, this);
   return *this;
 }
 
@@ -102,11 +128,27 @@ CTrie& CTrie::operator+=(const std::string& word) {
    * \return true if the word is a member of the trie, false otherwise
    */
 
-bool CTrie::operator^(const std::string &word) const {
+bool carrot(const std::string &word, const CTrie* rhs) {
+  char c = word.at(0);
 
-  //TODO
-  std::cout << word << std::endl;
-  return false;
+  std::map<char, CTrie *>::const_iterator cit = rhs->children.find(c);
+  if (cit == rhs->children.end()) {
+    return false;
+  }
+  
+  if (word.length() > 1) { //word not done yet
+    std::string wordCopy = word.substr(1,word.length()-2);
+    //removes the first letter in word
+    return carrot(wordCopy, cit->second);
+  } //else, last character in the word
+  else if (rhs->endPoint == false) { //but the last character is not an endpoint
+    return false;
+  }
+  return true;
+}
+
+bool CTrie::operator^(const std::string &word) const {
+  return carrot(word, this);
 }
 
 /**
@@ -121,7 +163,7 @@ bool CTrie::operator==(const CTrie& rhs) const {
 
   //TODO
   return false;
-  } 
+} 
 
   /**
    * \brief Overloaded output stream operator<< to print the CTrie in
@@ -133,14 +175,14 @@ bool CTrie::operator==(const CTrie& rhs) const {
    * \return A reference to the output stream object
   */
 
-friend std::ostream& operator<<(std::ostream& os, const CTrie& ct) {
+std::ostream& operator<<(std::ostream& os, const CTrie& ct) {
 
 }
 
   /**
    * \return the number of children
    */
-CTtrie::unsigned numChildren() const {
+unsigned CTrie::numChildren() const {
   //TODO
   return 0;
 }
@@ -148,8 +190,9 @@ CTtrie::unsigned numChildren() const {
   /**
    * \return true if there are any children, false otherwise
    */
-CTrie::bool hasChild() const {
-  return *this.endPoint;
+bool CTrie::hasChild() const {
+  //TODO
+  return false;
 }
 
   /**
@@ -158,7 +201,7 @@ CTrie::bool hasChild() const {
    * \return true if there is a link to a child labeled with the character,
    *         false otherwise
    */
-CTrie::bool hasChild(char character) const {
+bool CTrie::hasChild(char character) const {
   //TODO
   return false;
 }
@@ -169,13 +212,13 @@ CTrie::bool hasChild(char character) const {
    * \param character a character
    * \return pointer to child node, or nullptr if there is no such child
    */
-const CTrie* getChild(char character) const {
+const CTrie* CTrie::getChild(char character) const {
 
 }
 
   /**
    * \return true if this node is an endpoint, false otherwise
    */
-bool isEndpoint() const {
+bool CTrie::isEndpoint() const {
 
 }
