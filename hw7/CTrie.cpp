@@ -159,10 +159,30 @@ bool CTrie::operator^(const std::string &word) const {
    * false otherwise
    */
 
-bool CTrie::operator==(const CTrie& rhs) const {
 
-  //TODO
-  return false;
+bool doubleEqual(const CTrie* lhs, const CTrie* rhs) {
+  std::map<char, CTrie*>::const_iterator rcit = rhs->children.cbegin();
+  std::map<char, CTrie*>::const_iterator lcit = lhs->children.cbegin();
+  while (rcit != rhs->children.cend()) {
+    if (lcit == lhs->children.cend()) {
+      return false;
+    }
+    if (lhs->endPoint != rhs->endPoint) {
+      return false;
+    }
+    if (lcit->first != rcit->first) {
+      return false;
+    }
+    lcit++;
+    rcit++;
+    return doubleEqual(lcit->second, rcit->second);
+  }
+  return true;
+}
+
+
+bool CTrie::operator==(const CTrie& rhs) const {
+  return doubleEqual(this, &rhs);
 } 
 
   /**
@@ -175,24 +195,42 @@ bool CTrie::operator==(const CTrie& rhs) const {
    * \return A reference to the output stream object
   */
 
-std::ostream& operator<<(std::ostream& os, const CTrie& ct) {
+std::ostream& outPut(std::ostream& os, const CTrie& ct) {
+  std::map<char, CTrie*>::const_iterator cit = ct.children.cbegin();
+  while (cit != ct.children.cend()) {
+    os << cit->first;
+    if (ct.endPoint) {
+      os << '\n';
+    }
+    else {
+      outPut(os, *(cit->second));
+    }
+  }
+  return os;
+}
 
+std::ostream& operator<<(std::ostream& os, const CTrie& ct) {
+  return outPut(os, ct);
 }
 
   /**
    * \return the number of children
    */
 unsigned CTrie::numChildren() const {
-  //TODO
-  return 0;
+  unsigned sum = 0;
+  std::map<char, CTrie*>::const_iterator cit = this->children.cbegin();
+  while (cit != this->children.cend()) {
+    sum++;
+  }
+  return sum;
 }
 
   /**
    * \return true if there are any children, false otherwise
    */
 bool CTrie::hasChild() const {
-  //TODO
-  return false;
+  std::map<char, CTrie*>::const_iterator cit = this->children.cbegin();
+  return cit == this->children.cend();
 }
 
   /**
@@ -202,8 +240,14 @@ bool CTrie::hasChild() const {
    *         false otherwise
    */
 bool CTrie::hasChild(char character) const {
-  //TODO
-  return false;
+
+  //Code based on hint for hw7
+  std::map<char, CTrie *>::const_iterator cit = this->children.find(character);
+  if (cit == this->children.end()) {
+    return false;
+  }
+  return true;
+
 }
 
   /**
@@ -214,11 +258,20 @@ bool CTrie::hasChild(char character) const {
    */
 const CTrie* CTrie::getChild(char character) const {
 
+  //Code based on hint for hw7
+  std::map<char, CTrie *>::const_iterator cit = this->children.find(character);
+  if (cit == children.end()) {
+    return nullptr;
+  }
+  else {
+    return cit->second;
+  }
+
 }
 
   /**
    * \return true if this node is an endpoint, false otherwise
    */
 bool CTrie::isEndpoint() const {
-
+  return this->endPoint;
 }
