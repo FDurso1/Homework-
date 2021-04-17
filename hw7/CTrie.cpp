@@ -8,7 +8,7 @@
 #include <stdbool.h>
 
 #include "CTrie.h"
-using namespace std;
+
 
 // TODO: implement the CTrie member functions and friend function
 
@@ -30,11 +30,21 @@ CTrie::CTrie(const CTrie& rhs){
   
 }
 
+
   /**
    * Destructor.
    */
-CTrie::~CTrie() {
 
+void deleteMe(CTrie* lhs) {
+  std::map<char, CTrie*>::iterator it = lhs->children.begin();
+  while (it != lhs->children.end()) {
+    deleteMe(it->second);
+    delete it->second;
+  }
+}
+
+CTrie::~CTrie() {
+  deleteMe(this);
 }
 
   /**
@@ -42,32 +52,35 @@ CTrie::~CTrie() {
 
    person a {fullName, "", "", "", "", ""};
     map.insert(std::pair<string, person>(lowFull,a));
-
-
-    (char)cit->first, nextLevel)
-<char, CTrie*>
    */
 
-CTrie& setCTrieEqual(CTrie lhs, const CTrie &rhs) {
+CTrie setCTrieEqual(CTrie* lhs, const CTrie &rhs) {
   std::cout << "Setting equals" << std::endl;
-  lhs.endPoint = rhs.endPoint;
+  lhs->endPoint = rhs.endPoint;
   std::cout << "End point set to " << rhs.endPoint << std::endl;
   std::map<char, CTrie*>::const_iterator cit = rhs.children.cbegin();
   while (cit != rhs.children.cend()) {
     std::cout << "rhs child detected" << std::endl;
-    CTrie nextLevel();
+    CTrie* nextLevel = new CTrie;
     std::cout << "Recurring with a new CTrie" << std::endl;
-    setCTrieEqual(nextLevel, cit->second);
-    lhs.children.insert(std::pair<char, CTrie*>());
+    setCTrieEqual(nextLevel, *(cit->second));
+    lhs->children.insert(std::pair<char, CTrie*>((char)cit->first, nextLevel));
     std::cout << "adding a blank to lhs's map, then recurring it" << std::endl;
+    cit++;
   }
-  return lhs;
+  return *lhs;
 }
 
 CTrie & CTrie:: operator=(const CTrie &rhs) {
-  std::cout << "Deep copying" << std::endl;
-  *this = setCTrieEqual(*this, rhs);
-  std::cout << "Deep copy done" << std::endl;
+
+  if (this != &rhs) {
+    std::cout << "Deep copying" << std::endl;
+    //remove all of *this recursively
+    //then recursively copy all of rhs
+    CTrie* newLeft = new CTrie;
+    *this = setCTrieEqual(newLeft, rhs);
+    std::cout << "Deep copy done" << std::endl;
+  }
   return *this;
 }
 
@@ -77,7 +90,7 @@ CTrie & CTrie:: operator=(const CTrie &rhs) {
    * \return a reference to the CTrie object
    */
 
-CTrie& operator+=(const std::string& word) {
+CTrie& CTrie::operator+=(const std::string& word) {
 
   //TODO
   return *this;
@@ -89,9 +102,10 @@ CTrie& operator+=(const std::string& word) {
    * \return true if the word is a member of the trie, false otherwise
    */
 
-bool operator^(const std::string &word) const {
+bool CTrie::operator^(const std::string &word) const {
 
   //TODO
+  std::cout << word << std::endl;
   return false;
 }
 
@@ -103,11 +117,11 @@ bool operator^(const std::string &word) const {
    * false otherwise
    */
 
-bool operator==(const CTrie& rhs) const {
+bool CTrie::operator==(const CTrie& rhs) const {
 
   //TODO
   return false;
-}
+  } 
 
   /**
    * \brief Overloaded output stream operator<< to print the CTrie in
