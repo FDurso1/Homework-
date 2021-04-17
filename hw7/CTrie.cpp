@@ -50,7 +50,14 @@ void deleteMe(CTrie* lhs) {
 
 CTrie::~CTrie() {
   std::cout << "Destructor called" << std::endl;
-  deleteMe(this); //calls the recursive function
+  
+  std::map<char, CTrie*>::iterator it = this->children.begin();
+  while (it != this->children.end()) {
+    delete it->second;
+  }
+
+
+  //deleteMe(this); //calls the recursive function
   std::cout << "Destructor concluded" << std::endl;
 }
 
@@ -97,22 +104,27 @@ CTrie & CTrie::operator=(const CTrie &rhs) {
 void addEquals(const std::string& word, CTrie* rhs) {
 
   char c = word.at(0);
-  
+  std::cout << "working with character: " << c << " out of word: " << word
+	    << std::endl;
   //This iterator and if/else structures are based on those found in hw7 hints.
   std::map<char, CTrie *>::const_iterator cit = rhs->children.find(c);
   if (cit == rhs->children.end()) {
     // no such child
+    std::cout << "That character does not already exist" <<std::endl;
     CTrie* nextLevel = new CTrie;
     rhs->children.insert(std::pair<char, CTrie*>(c, nextLevel));
+    std::cout << "It has been inserted into the map" << std::endl;
   }
   // else, cit->second is the pointer to the child node
 
   if (word.length() > 1) { //word not done yet
-    std::string wordCopy = word.substr(1,word.length()-2);
+    std::string wordCopy = word.substr(1,word.size()-1);
     //removes the first letter in word
+    std::cout << "Recurring with a shorter word: " << wordCopy << std::endl;
     addEquals(wordCopy, cit->second);
   }
   else { //last character in word
+    std::cout << "word done, setting endpoint" << std::endl;
     rhs->endPoint = true;
   }
 }
@@ -137,7 +149,7 @@ bool carrot(const std::string &word, const CTrie* rhs) {
   }
   
   if (word.length() > 1) { //word not done yet
-    std::string wordCopy = word.substr(1,word.length()-2);
+    std::string wordCopy = word.substr(1, word.size() -2);
     //removes the first letter in word
     return carrot(wordCopy, cit->second);
   } //else, last character in the word
@@ -230,7 +242,7 @@ unsigned CTrie::numChildren() const {
    */
 bool CTrie::hasChild() const {
   std::map<char, CTrie*>::const_iterator cit = this->children.cbegin();
-  return cit == this->children.cend();
+  return !(cit == this->children.cend());
 }
 
   /**
@@ -240,10 +252,12 @@ bool CTrie::hasChild() const {
    *         false otherwise
    */
 bool CTrie::hasChild(char character) const {
-
+  std::cout << "Testing if " << character << " is a child" << std::endl;
   //Code based on hint for hw7
   std::map<char, CTrie *>::const_iterator cit = this->children.find(character);
+  std::cout << "cit created" << std::endl;
   if (cit == this->children.end()) {
+    std::cout << "Returning false" << std::endl;
     return false;
   }
   return true;

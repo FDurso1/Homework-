@@ -64,9 +64,11 @@ struct CTrieTest {
     ASSERT(!hChild->hasChild('i'));
     q += "hi";
     ASSERT(hChild->hasChild('i'));
+    cout << "     CTrieTest cp 0" << std::endl;
   }
 
   static void CopyConstructorTest() {
+    cout << "     CTrieTest cp 1" << std::endl;
     CTrie q = CTrie();
     q += "hello";
     q += "hell";
@@ -74,10 +76,11 @@ struct CTrieTest {
     q += "johns";
     q += "joanna";
     q += "johnson";
-
+    cout << "     CTrieTest cp 2" << std::endl;
     CTrie p(q);
-
+    cout << "     CTrieTest cp 3" << std::endl;
     ASSERT((p == q));
+    cout << "     CTrieTest cp 4" << std::endl;
     p += "jelly";
     ASSERT(!(p == q));
   }
@@ -177,6 +180,7 @@ int main(int, char* argv[]) {
 
   CTrieTest::DefaultConstructorTest();
   CTrieTest::AddAssignOperatorTest();
+  cout << "     CTrieTest cp 0.5" << endl;
   CTrieTest::CopyConstructorTest();
   CTrieTest::AssignmentOperatorTest();
   CTrieTest::CaratOperatorTest();

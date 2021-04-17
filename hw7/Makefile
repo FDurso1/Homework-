@@ -1,8 +1,16 @@
 CXX = g++
-CXXFLAGS = -g -Wall -Wextra -pedantic -std=c++11
+CXXFLAGS = -g -Wall -Wextra -std=c++11 -pedantic
 
-cTrieTest : CTrieTest.o CTrie.o
-	$(CXX) -o CTrieTest CTrie.o
+#all: CTrieTest TTrieTest wordHunt
+
+CTrieTest : CTrieTest.o CTrie.o
+	$(CXX) $(CXXFLAGS) -o CTrieTest CTrieTest.o CTrie.o
+
+CTrieTest.o: CTrieTest.cpp CTrie.h
+	$(CXX) $(CXXFLAGS) -c CTrieTest.cpp
 
 CTrie.o : CTrie.cpp CTrie.h
-	$(CXX) $(CXXFLAGS) -c CTrie.cpp -o CTrie.o
+	$(CXX) $(CXXFLAGS) -c CTrie.cpp
+
+clean:
+	rm -f CTrieTest tTrieTest
