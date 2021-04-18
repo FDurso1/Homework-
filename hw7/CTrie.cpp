@@ -36,16 +36,16 @@ CTrie::CTrie(const CTrie& rhs){
    */
 
 void CTrie::clearMe() {
-  cout << "Clearing started" << endl;
+  //cout << "Clearing started" << endl;
   std::map<char, CTrie*>::iterator it = this->children.begin();
   std::vector<CTrie*> pointers;
   while (it != this->children.end()) {
     pointers.push_back(it->second);
-    std::cout << "Storing " << it->second << std::endl;
+    //std::cout << "Storing " << it->second << std::endl;
     it++;
   }
   for (std::vector<CTrie*>::iterator it = pointers.begin(); it != pointers.end(); it++) {
-    std::cout << "Deleting " << &it << std::endl;
+    //std::cout << "Deleting " << &it << std::endl;
     delete *it;
   }
 
@@ -70,14 +70,13 @@ void CTrie::setCTrieEqual(const CTrie &rhs) {
 
   std::map<char, CTrie*>::const_iterator cit = rhs.children.cbegin();
   while (cit != rhs.children.cend()) {
-    std::cout << "rhs child detected" << std::endl;
-    std::cout << "With the letter " << cit->first << std::endl;
+    std::cout << "rhs child detecte with the letter " << cit->first << endl;
     CTrie *nextLevel = new CTrie;
     std::cout << "Recurring with a new CTrie" << std::endl;
-    //  nextLevel = getChild(cit->first);
+    *nextLevel = *(cit->second);
 
-    children.insert(std::pair<char, CTrie*>((char)cit->first, nextLevel));
-    std::cout << "adding the first branch, possibly more" << std::endl;
+    children[cit->first] = nextLevel;
+    std::cout << "word finished, possibly more" << std::endl;
     cit++;
   }
   
@@ -89,10 +88,13 @@ CTrie & CTrie::operator=(const CTrie &rhs) {
     std::cout << "Deep copying" << std::endl;
     //remove all of *this recursively
     clearMe();
+    cout << "Cleared of original values" << endl;
     //then recursively copy all of rhs
     setCTrieEqual(rhs);
     std::cout << "Deep copy done" << std::endl;
   }
+  
+  cout << "Copy constructor now returning a value" << endl;
   return *this;
 }
 
@@ -140,23 +142,27 @@ CTrie& CTrie::operator+=(const std::string& word) {
    * \return true if the word is a member of the trie, false otherwise
    */
 
-bool CTrie::carrot(const std::string &word) {
+bool CTrie::carrot(const std::string &word) const {
   char c = word.at(0);
 
  
   if (hasChild(c) == false) {
+    cout << "Child not found for character: " << c << ", returning false" << endl;
     return false;
   }
   
   if (word.length() > 1) { //word not done yet
-    std::string wordCopy = word.substr(1, word.size() -2);
+    const std::string wordCopy = word.substr(1, word.size() -1);
+    cout << "recurring with " << wordCopy << " and newest child" << endl;
     //removes the first letter in word
-    return *giveChild(c) ^ wordCopy;
+    return *getChild(c) ^ wordCopy;
   } //else, last character in the word
-  else if (rhs->endPoint == false) {
+  else if (isEndpoint() == false) {
+    cout << "End of word reached, but not an endpoint" << endl;
     //but the last character is not an endpoint
     return false;
   }
+  cout << "Word found in carrot, returning true" << endl;
   return true;
 }
 
@@ -173,29 +179,32 @@ bool CTrie::operator^(const std::string &word) const {
    */
 
 
-bool doubleEqual(const CTrie* lhs, const CTrie* rhs) {
+bool CTrie::doubleEqual(const CTrie* rhs) const {
   std::map<char, CTrie*>::const_iterator rcit = rhs->children.cbegin();
-  std::map<char, CTrie*>::const_iterator lcit = lhs->children.cbegin();
+  std::map<char, CTrie*>::const_iterator lcit = this->children.cbegin();
   while (rcit != rhs->children.cend()) {
-    if (lcit == lhs->children.cend()) {
+    if (lcit == this->children.cend()) {
+      cout << "end of rhs children but not lhs children, not equal" << endl;
       return false;
     }
-    if (lhs->endPoint != rhs->endPoint) {
+    if (isEndpoint() != rhs->endPoint) {
+      cout << "Endpoints are not the same, not equal" << endl;
       return false;
     }
     if (lcit->first != rcit->first) {
+      cout << "letter of current child is not the same between lhs and rhs, not equal" << endl;
       return false;
     }
     lcit++;
     rcit++;
-    return doubleEqual(lcit->second, rcit->second);
+    return lcit->second == rcit->second;
   }
   return true;
 }
 
 
 bool CTrie::operator==(const CTrie& rhs) const {
-  return doubleEqual(this, &rhs);
+  return doubleEqual(&rhs);
 } 
 
   /**

@@ -74,10 +74,11 @@ struct CTrieTest {
     q += "johns";
     q += "joanna";
     q += "johnson";
-
+    cout << "     cp 0, copy constructor p(q). q has hello, hell, help, johns, joanna, and johnson. p has nothing" << endl;
     CTrie p(q);
-
+    cout << "     cp 1, copy constructor now done" << endl;
     ASSERT((p == q));
+    cout << "double equals operator works" << endl;
     p += "jelly";
     ASSERT(!(p == q));
   }
@@ -94,11 +95,12 @@ struct CTrieTest {
     ASSERT(!(q ^ "rice"));
     ASSERT(!(q ^ "beans"));
     ASSERT(!(r ^ "hello"));
+    cout << "     cp 0.5" << endl;
     ASSERT(r ^ "rice");
     ASSERT(r ^ "beans");
-
+    cout << "     cp 1 q=r, r has rice and beans. q has hello." << endl;
     q = r;
-
+    cout << "     cp 2" << endl;
     ASSERT(!(q ^ "hello"));
     ASSERT(q ^ "rice");
     ASSERT(q ^ "beans");
