@@ -34,30 +34,26 @@ CTrie::CTrie(const CTrie& rhs){
    * Destructor.
    */
 
-void deleteMe(CTrie* lhs) {
-  std::cout << "DeleteMe called" << std::endl;
-  std::map<char, CTrie*>::iterator it = lhs->children.begin();
-  while (it != lhs->children.end()) {
-    std::cout << "There was a child found, recurring for that child" << std::endl; 
-    deleteMe(it->second); //every time it finds a new child it recurrs
-    //and it loops this process for every child on the current level
+void CTrie::clearMe() {
+  std::map<char, CTrie*>::iterator it = this->children.begin();
+  std::vector<CTrie*> pointers;
+  while (it != this->children.end()) {
+    pointers.push_back(it->second);
+    std::cout << "Storing " << it->second << std::endl;
     it++;
   }
-  delete it->second;
-  std::cout << "No child detected at this level, deleting current CTrie" << std::endl;
-  //every time it does not find a child it deletes the current CTrie
+  for (std::vector<CTrie*>::iterator it = pointers.begin(); it != pointers.end(); it++) {
+    std::cout << "Deleting " << &it << std::endl;
+    delete *it;
+  }
+
+  this->children.clear();
+  std::cout << "Clear concluded" << std::endl;
 }
 
 CTrie::~CTrie() {
-  std::cout << "Destructor called" << std::endl;
-  
-  std::map<char, CTrie*>::iterator it = this->children.begin();
-  while (it != this->children.end()) {
-    delete it->second;
-  }
-
-
-  //deleteMe(this); //calls the recursive function
+  std::cout << "Destructor called for " << this << std::endl;
+  clearMe();
   std::cout << "Destructor concluded" << std::endl;
 }
 
@@ -65,31 +61,34 @@ CTrie::~CTrie() {
    * Assignment operators
    */
 
-CTrie setCTrieEqual(CTrie* lhs, const CTrie &rhs) {
+void CTrie::setCTrieEqual(const CTrie &rhs) {
   std::cout << "Setting equals" << std::endl;
-  lhs->endPoint = rhs.endPoint;
+  endPoint = rhs.endPoint;
   std::cout << "End point set to " << rhs.endPoint << std::endl;
+
   std::map<char, CTrie*>::const_iterator cit = rhs.children.cbegin();
   while (cit != rhs.children.cend()) {
     std::cout << "rhs child detected" << std::endl;
-    CTrie* nextLevel = new CTrie;
+    std::cout << "With the letter " << cit->first << std::endl;
+    CTrie *nextLevel = new CTrie;
     std::cout << "Recurring with a new CTrie" << std::endl;
-    setCTrieEqual(nextLevel, *(cit->second));
-    lhs->children.insert(std::pair<char, CTrie*>((char)cit->first, nextLevel));
-    std::cout << "adding a blank to lhs's map, then recurring it" << std::endl;
+    nextLevel = getChild(cit->first);
+
+    children.insert(std::pair<char, CTrie*>((char)cit->first, nextLevel));
+    std::cout << "adding the first branch, possibly more" << std::endl;
     cit++;
   }
-  return *lhs;
+  
 }
 
 CTrie & CTrie::operator=(const CTrie &rhs) {
-
+  std::cout << "= operator" << std::endl;
   if (this != &rhs) {
     std::cout << "Deep copying" << std::endl;
     //remove all of *this recursively
-    deleteMe(this);
+    clearMe();
     //then recursively copy all of rhs
-    *this = setCTrieEqual(this, rhs);
+    setCTrieEqual(rhs);
     std::cout << "Deep copy done" << std::endl;
   }
   return *this;
@@ -101,36 +100,34 @@ CTrie & CTrie::operator=(const CTrie &rhs) {
    * \return a reference to the CTrie object
    */
 
-void addEquals(const std::string& word, CTrie* rhs) {
+void CTrie::addEquals(const std::string& word) {
 
   char c = word.at(0);
   std::cout << "working with character: " << c << " out of word: " << word
 	    << std::endl;
-  //This iterator and if/else structures are based on those found in hw7 hints.
-  std::map<char, CTrie *>::const_iterator cit = rhs->children.find(c);
-  if (cit == rhs->children.end()) {
+  
+  if (!hasChild(c)) {
     // no such child
     std::cout << "That character does not already exist" <<std::endl;
     CTrie* nextLevel = new CTrie;
-    rhs->children.insert(std::pair<char, CTrie*>(c, nextLevel));
+    children[c] = nextLevel;
     std::cout << "It has been inserted into the map" << std::endl;
   }
-  // else, cit->second is the pointer to the child node
-
+  
   if (word.length() > 1) { //word not done yet
     std::string wordCopy = word.substr(1,word.size()-1);
-    //removes the first letter in word
+
     std::cout << "Recurring with a shorter word: " << wordCopy << std::endl;
-    addEquals(wordCopy, cit->second);
+    *getChild(c) += wordCopy;
   }
   else { //last character in word
     std::cout << "word done, setting endpoint" << std::endl;
-    rhs->endPoint = true;
+    endPoint = true;
   }
 }
 
 CTrie& CTrie::operator+=(const std::string& word) {
-  addEquals(word, this);
+  addEquals(word);
   return *this;
 }
 

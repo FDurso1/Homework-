@@ -110,10 +110,11 @@ public:
   std::map<char, CTrie*> children;
 private:
   // TODO: fields
-  //bool endPoint;
-  //std::map<char, CTrie*> children;
   
   // TODO: helper functions
+  void clearMe();
+  void addEquals(const std::string& word);
+  void setCTrieEqual(const CTrie &rhs);
 };
 
 #endif // CTRIE_H
