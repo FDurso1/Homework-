@@ -9,7 +9,8 @@
 
 #include "CTrie.h"
 
-
+using std::cout;
+using std::endl;
 // TODO: implement the CTrie member functions and friend function
 
 
@@ -35,6 +36,7 @@ CTrie::CTrie(const CTrie& rhs){
    */
 
 void CTrie::clearMe() {
+  cout << "Clearing started" << endl;
   std::map<char, CTrie*>::iterator it = this->children.begin();
   std::vector<CTrie*> pointers;
   while (it != this->children.end()) {
@@ -72,7 +74,7 @@ void CTrie::setCTrieEqual(const CTrie &rhs) {
     std::cout << "With the letter " << cit->first << std::endl;
     CTrie *nextLevel = new CTrie;
     std::cout << "Recurring with a new CTrie" << std::endl;
-    nextLevel = getChild(cit->first);
+    //  nextLevel = getChild(cit->first);
 
     children.insert(std::pair<char, CTrie*>((char)cit->first, nextLevel));
     std::cout << "adding the first branch, possibly more" << std::endl;
@@ -110,6 +112,7 @@ void CTrie::addEquals(const std::string& word) {
     // no such child
     std::cout << "That character does not already exist" <<std::endl;
     CTrie* nextLevel = new CTrie;
+    cout << "Next level made" << endl;
     children[c] = nextLevel;
     std::cout << "It has been inserted into the map" << std::endl;
   }
@@ -118,7 +121,7 @@ void CTrie::addEquals(const std::string& word) {
     std::string wordCopy = word.substr(1,word.size()-1);
 
     std::cout << "Recurring with a shorter word: " << wordCopy << std::endl;
-    *getChild(c) += wordCopy;
+    *giveChild(c) += wordCopy;
   }
   else { //last character in word
     std::cout << "word done, setting endpoint" << std::endl;
@@ -137,27 +140,28 @@ CTrie& CTrie::operator+=(const std::string& word) {
    * \return true if the word is a member of the trie, false otherwise
    */
 
-bool carrot(const std::string &word, const CTrie* rhs) {
+bool CTrie::carrot(const std::string &word) {
   char c = word.at(0);
 
-  std::map<char, CTrie *>::const_iterator cit = rhs->children.find(c);
-  if (cit == rhs->children.end()) {
+ 
+  if (hasChild(c) == false) {
     return false;
   }
   
   if (word.length() > 1) { //word not done yet
     std::string wordCopy = word.substr(1, word.size() -2);
     //removes the first letter in word
-    return carrot(wordCopy, cit->second);
+    return *giveChild(c) ^ wordCopy;
   } //else, last character in the word
-  else if (rhs->endPoint == false) { //but the last character is not an endpoint
+  else if (rhs->endPoint == false) {
+    //but the last character is not an endpoint
     return false;
   }
   return true;
 }
 
 bool CTrie::operator^(const std::string &word) const {
-  return carrot(word, this);
+  return carrot(word);
 }
 
 /**
@@ -276,6 +280,17 @@ const CTrie* CTrie::getChild(char character) const {
   }
   else {
     return cit->second;
+  }
+
+}
+
+CTrie* CTrie::giveChild(char c) {
+    
+  if (children.find(c) == children.end()) {
+    return nullptr;
+  }
+  else {
+    return (children.find(c))->second;
   }
 
 }

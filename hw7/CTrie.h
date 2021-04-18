@@ -115,6 +115,8 @@ private:
   void clearMe();
   void addEquals(const std::string& word);
   void setCTrieEqual(const CTrie &rhs);
+  CTrie* giveChild(char c);
+  bool carrot(const std::string &word) {
 };
 
 #endif // CTRIE_H
