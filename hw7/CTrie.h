@@ -92,25 +92,14 @@ public:
    * \return true if this node is an endpoint, false otherwise
    */
   bool isEndpoint() const;
-  /*
-  bool getEP() {
-    return endPoint;
-  }
-
-  std::map<char, CTrie*> getChildren() {
-    return children;
-  }
-
-  void setEP(bool bul) {
-    endPoint = bul;
-  }
-  */
-  //
-  bool endPoint;
-  std::map<char, CTrie*> children;
+ 
+  //bool endPoint;
+  //std::map<char, CTrie*> children;
 private:
   // TODO: fields
   //TODO move endPoint and map over
+  bool endPoint;
+  std::map<char, CTrie*> children;
   
   // TODO: helper functions
   void clearMe();
@@ -118,7 +107,6 @@ private:
   void setCTrieEqual(const CTrie &rhs);
   CTrie* giveChild(char c);
   bool carrot(const std::string &word) const;
-  bool doubleEqual(const CTrie* rhs) const;
   std::string output_trie(std::string& base, std::string& word) const;
 };
 

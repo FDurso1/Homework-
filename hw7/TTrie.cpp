@@ -7,21 +7,17 @@
 // TODO: add other #includes as needed
 #include <stdbool.h>
 
-#include "CTrie.h"
+#include "TTrie.h"
 
-using std::cout;
-using std::endl;
-using std::stringstream;
-using std::string;
-using std::cin;
-// TODO: implement the CTrie member functions and friend function
+// TODO: implement the TTrie member functions and friend function
 
 
  /**
    * Default Constructor.
    */
-CTrie::CTrie() {
-  std::map<char, CTrie*> children;
+template<typename DataType>
+TTrie<DataType>::TTrie() {
+  std::map<DataType, TTrie<DataType>*> children;
   endPoint = false;
 }
 
@@ -29,24 +25,25 @@ CTrie::CTrie() {
    * Copy Constructor.
    * \param rhs A const reference to the input to copy.
    */
-CTrie::CTrie(const CTrie& rhs){
+template<typename DataType>
+TTrie<DataType>::TTrie(const TTrie<DataType>& rhs){
   *this = rhs; //using overloaded opperator  
 }
 
   /**
    * Destructor.
    */
-
-void CTrie::clearMe() {
-  std::map<char, CTrie*>::iterator it = this->children.begin();
-  std::vector<CTrie*> pointers;
+template<typename DataType>
+void TTrie<DataType>::clearMe() {
+  std::map<DataType, TTrie<DataType>*>::iterator it = this->children.begin();
+  std::vector<TTrie<DataType>*> pointers;
   
   //store all the pointers in a vector
   while (it != this->children.end()) {
     pointers.push_back(it->second);
     it++;
   }
-  for (std::vector<CTrie*>::iterator it = pointers.begin();
+  for (std::vector<TTrie*>::iterator it = pointers.begin();
        it != pointers.end(); it++) {
     delete *it;
   }
@@ -54,7 +51,8 @@ void CTrie::clearMe() {
   this->children.clear();
 }
 
-CTrie::~CTrie() {
+template<typename DataType>
+TTrie<DataType>::~TTrie() {
   clearMe();
 }
 
@@ -62,28 +60,29 @@ CTrie::~CTrie() {
    * Assignment operators
    */
 
-void CTrie::setCTrieEqual(const CTrie &rhs) {
+template<typename DataType>
+void TTrie<DataType>::setTTrieEqual(const TTrie &rhs) {
   endPoint = rhs.endPoint;
   
-  std::map<char, CTrie*>::const_iterator cit = rhs.children.cbegin();
+  std::map<DataType, TTrie<DataType>*>::const_iterator cit = rhs.children.cbegin();
   while (cit != rhs.children.cend()) {
-    //for each child at this layer, create a CTrie that will be a copy
-    //of it, and then recur this function on the new CTrie.
-    CTrie *nextLevel = new CTrie;
+    //for each child at this layer, create a TTrie that will be a copy
+    //of it, and then recur this function on the new TTrie.
+    TTrie<DataType> *nextLevel = new TTrie<DataType>;
     *nextLevel = *(cit->second);
     children[cit->first] = nextLevel;
     cit++;
   }
-  
 }
 
-CTrie & CTrie::operator=(const CTrie &rhs) {
+template<typename DataType>
+TTrie<DataType> & TTrie<DataType>::operator=(const TTrie<DataType> &rhs) {
   if (this != &rhs) {
     //remove all of *this recursively
     clearMe();
         
     //then recursively copy all of rhs
-    setCTrieEqual(rhs);
+    setTTrieEqual(rhs);
   }
   return *this;
 }
@@ -95,30 +94,32 @@ CTrie & CTrie::operator=(const CTrie &rhs) {
    */
 
 //Word will always be at least 1 letter
-void CTrie::addEquals(const std::string& word) {
-    char c = word.at(0);
-    cout << "char: " << c << " out of word " << word << endl;
+template<typename DataType>
+void TTrie<DataType>::addEquals(const std::vector<DataType>& vec) {
+    DataType c = word.at(0);
+    std::cout << "DataType: " << c << " out of vector " << vec << std::endl;
     
     //if the child does not exist with that letter yet, make it
     if (!hasChild(c)) {
-      CTrie* nextLevel = new CTrie;
+      TTrie<DataType>* nextLevel = new TTrie<DataType>;
       children[c] = nextLevel;
     }
     //else, the child already exists and can be called with giveChild()
 
-    if (word.length() > 1) {
-      std::string wordCopy = word.substr(1,word.size()-1);
-      *giveChild(c) += wordCopy;
+    if (vec.size() > 1) {
+      std::vector<DataType> sub(vev.begin()+1, vec.end());
+      *giveChild(c) += sub;
     }
-    if (word.length() == 1) {
+    if (vec.size() == 1) {
       this->endPoint = true;
-      cout << "The CTrie: " << giveChild(c) << " with the letter " << c <<" now has the endPoint value " << giveChild(c)->isEndpoint() << endl;
+      std::cout << "The TTrie: " << giveChild(c) << " with the DataType " << c <<" now has the endPoint value " << giveChild(c)->isEndpoint() << std::endl;
       return;
     }
 }
 
-CTrie& CTrie::operator+=(const std::string& word) {
-  addEquals(word);
+template<typename DataType>
+TTrie<DataType>& TTrie<DataType>::operator+=(const std::vector<DataType> vec) {
+  addEquals(vec);
   return *this;
 }
 
@@ -128,18 +129,19 @@ CTrie& CTrie::operator+=(const std::string& word) {
    * \return true if the word is a member of the trie, false otherwise
    */
 
-bool CTrie::carrot(const std::string &word) const {
-  char c = word.at(0);
+template<typename DataType>
+bool TTrie<DataType>::carrot(const std::vector<DataType> vec) const {
+  DataType c = vec.front();
  
   if (hasChild(c) == false) {
-    //the CTrie does not have the next character in the word
+    //the TTrie does not have the next character in the word
     return false;
   }
   
-  if (word.length() > 1) { //word not done yet
-    const std::string wordCopy = word.substr(1, word.size() -1);
-    //make a copy of word with the first letter removed
-    return *getChild(c) ^ wordCopy;
+  if (vec.size() > 1) { //vec not done yet
+     std::vector<DataType> sub(vev.begin()+1, vec.end());
+    //make a copy of vec with the first DataType removed
+    return *getChild(c) ^ sub;
   }
   //else, last character in the word
   else if (isEndpoint() == false) {
@@ -149,8 +151,9 @@ bool CTrie::carrot(const std::string &word) const {
   return true;
 }
 
-bool CTrie::operator^(const std::string &word) const {
-  return carrot(word);
+template<typename DataType>
+bool TTrie<DataType>::operator^(const std::vector<DataType> &vec) const {
+  return carrot(vec);
 }
 
 /**
@@ -160,10 +163,10 @@ bool CTrie::operator^(const std::string &word) const {
    * \return true if the other object represents exactly the same set of words,
    * false otherwise
    */
-
-bool CTrie::operator==(const CTrie& rhs) const {
+template<typename DataType>
+bool TTrie<DataType>::operator==(const TTrie<DataType>& rhs) const {
   //using the output of this and rhs to determine if they are equal.
-  string a = "";
+  DataType a;
   return rhs.output_trie(a, a) == (*this).output_trie(a, a);
 
 } 
@@ -178,43 +181,48 @@ bool CTrie::operator==(const CTrie& rhs) const {
    * \return A reference to the output stream object
   */
 
-
-string CTrie::output_trie(string& curBase, string& fullWord) const {
+template<typename DataType>
+std::vector TTrie<DataType>::output_trie(vector<DataType> curBase, vector<DataType>& fullVec) const {
   
-  std::map<char, CTrie*>::const_iterator cit = children.cbegin();
+  std::map<DataType, TTrie*>::const_iterator cit = children.cbegin();
   //save the current base 
-  string saveCurBase = curBase;
+   saveCurBase = curBase;
   
   while (cit != children.cend()) { //for every child
     
-    curBase += cit->first; //the base gets incremented by that letter
+    curBase.push_back(cit->first); //the base gets incremented by that letter
     if (isEndpoint()) {
       //if it's an endpoint, the fullWord final output gains the current base
-      fullWord += curBase;
-      fullWord += '\n';
+      fullVec.push_back(curBase);
+      fullVec.push_back('\n');
     }
     if (hasChild()) { //recursive call if the current CTrie has a child
-      (cit->second)->output_trie(curBase, fullWord);
+      (cit->second)->output_trie(curBase, fullVec);
       curBase = saveCurBase; //but, the curBase must be reset afterwards
     } 
     cit++;
   }
-  return fullWord;
+  return fullVec;
 }
 
-std::ostream& operator<<(std::ostream& os, const CTrie& ct) {
-  string str = "";
-  string base = "";
-  os << ct.output_trie(base, str);
+template<typename DataType>
+std::ostream& operator<<(std::ostream& os, const TTrie& tt) {
+  std::vector<DataType> base;
+  std::vector<DataType> full;
+  std::vector<DataType> oVec = tt.output_trie(base, full);
+  for (int i = 0; i < oVec.size() i++) {
+    os << oVec[i];
+  }
   return os;
 }
 
   /**
    * \return the number of children
    */
-unsigned CTrie::numChildren() const {
+template<typename DataType>
+unsigned TTrie<DataType>::numChildren() const {
   unsigned sum = 0;
-  std::map<char, CTrie*>::const_iterator cit = this->children.cbegin();
+  std::map<DataType, TTrie<DataType>*>::const_iterator cit = this->children.cbegin();
   while (cit != this->children.cend()) {
     sum++;
     cit++;
@@ -225,8 +233,9 @@ unsigned CTrie::numChildren() const {
   /**
    * \return true if there are any children, false otherwise
    */
-bool CTrie::hasChild() const {
-  std::map<char, CTrie*>::const_iterator cit = this->children.cbegin();
+template<typename DataType>
+bool TTrie<DataType>::hasChild() const {
+  std::map<DataType, TTrie*>::const_iterator cit = this->children.cbegin();
   return !(cit == this->children.cend());
 }
 
@@ -236,10 +245,11 @@ bool CTrie::hasChild() const {
    * \return true if there is a link to a child labeled with the character,
    *         false otherwise
    */
-bool CTrie::hasChild(char character) const {
+template<typename DataType>
+bool TTrie<DataType>::hasChild(DataType character) const {
   
   //Code based on hint for hw7
-  std::map<char, CTrie *>::const_iterator cit = this->children.find(character);
+  std::map<DataType, TTrie<DataType>*>::const_iterator cit = this->children.find(character);
   if (cit == this->children.cend()) {
     return false;
   }
@@ -253,10 +263,11 @@ bool CTrie::hasChild(char character) const {
    * \param character a character
    * \return pointer to child node, or nullptr if there is no such child
    */
-const CTrie* CTrie::getChild(char character) const {
+template<typename DataType>
+const TTrie<DataType>* TTrie<DataType>::getChild(DataType character) const {
 
   //Code based on hint for hw7
-  std::map<char, CTrie *>::const_iterator cit = this->children.find(character);
+  std::map<DataType, TTrie<DataType>*>::const_iterator cit = this->children.find(character);
   if (cit == children.cend()) {
     return nullptr;
   }
@@ -270,21 +281,22 @@ const CTrie* CTrie::getChild(char character) const {
 This function is similar to getChild(), except it is not constant, which
 means that its output can then be modified.
  */
-CTrie* CTrie::giveChild(char c) {
+template<typename DataType>
+TTrie<DataType>* TTrie<DataType>::giveChild(DataType c) {
 
-  std::map<char, CTrie *>::iterator it = children.find(c);
+  std::map<DataType, TTrie<DataType>*>::iterator it = children.find(c);
   if (it == children.end()) {
     return nullptr;
   }
   else {
     return it->second;
   }
-
 }
 
   /**
    * \return true if this node is an endpoint, false otherwise
    */
-bool CTrie::isEndpoint() const {
+template<typename DataType>
+bool TTrie<DataType>::isEndpoint() const {
   return this->endPoint;
 }

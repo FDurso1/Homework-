@@ -129,10 +129,14 @@ struct CTrieTest {
     cout << "                            " << endl;
     cout << "     cp 6, start chaining test" << endl;
     CTrie q = CTrie();
-    (q += "hello") += "help";
+    cout << "        Should be nothing yet q: " << q << endl;
+    //(q += "hello") += "help";
+    q += "hello";
+    cout << "        Should be just hello q: " << q << endl;
+    q += "help";
+    cout << "        Should be hello and help q: " << q << endl;
     ASSERT(q ^ "hello");
     ASSERT(q ^ "help");
-    cout << "        Chaining error here hello, help. q: " << q << endl; 
     ASSERT(!(q ^ "hell"));
     cout << "     cp 7, end chaining test" << endl;
   }

@@ -1,13 +1,12 @@
+
 #ifndef TTRIE_H
 #define TTRIE_H
 
-#include <iostream>
+#include <map>
 #include <vector>
 #include <string>
-#include <sstream>
-#include <map>
 
-template< typename DataType>
+template<typename DataType>
 class TTrie {
 public:
   /**
@@ -19,7 +18,7 @@ public:
    * Copy Constructor.
    * \param rhs A const reference to the input to copy.
    */
-  TTrie(const TTrie& rhs);
+  TTrie(const TTrie<DataType>& rhs);  
 
   /**
    * Destructor.
@@ -29,43 +28,40 @@ public:
   /**
    * Assignment operator.
    */
-  TTrie& operator=(const TTrie<DataType> &rhs);
+  TTrie<DataType>& operator=(const TTrie<DataType> &rhs);
 
   /**
-   * Overloaded addition/assignment operator to input a new vector into the TTrie.
-   * \param sequence is the vector to insert into the trie
-   * \return a reference to the TTrie object
+   * Overloaded addition/assignment operator to input a new string into the Trie.
+   * \param word is the word to input into the operator.
+   * \return a reference to the CTrie object
    */
-  TTrie& operator+=(const std::vector<DataType>& sequence);
+  TTrie<DataType>& operator+=(const std::vector<DataType> &vec);
 
   /**
-   * Overloaded carat operator to check whether a given sequence exists in the object.
-   * \param sequence is the sequence to find
-   * \return true if the sequence is a member of the trie, false otherwise
+   * Overloaded carat operator to check whether a given word exists in the object.
+   * \param word the word to find.
+   * \return true if the word is a member of the trie, false otherwise
    */
-  bool operator^(const std::vector<DataType> &sequence) const;
+  bool operator^(const std::vector<DataType> &vec) const;
 
   /**
-   * Overloaded equality operator to check whether two TTrie objects are equal.
-   * \param rhs A const reference to the TTrie object to compare.
-   * \return true if the other object represents exactly the same set of sequences,
+   * Overloaded equality operator to check whether two Trie objects are equal.
+   * \param rhs A const reference to the CTrie object to compare.
+   * \return true if the other object represents exactly the same set of words,
    *         false otherwise
    */
   bool operator==(const TTrie<DataType>& rhs) const;
 
   /**
-   * \brief Overloaded output stream operator<< to print the sequences
-   *        in the TTrie one per line, with values separated by '-'
-   *        (hyphen) characters, in lexicographical order (note that if
-   *        you use a map to represent links to children, a recursive
-   *        traversal should allow you to generate the sequences in
-   *        sorted order very easily)
+   * \brief Overloaded output stream operator<< to print the CTrie in 
+   * this format a word by line in alphabetical order
+   *   e.g. if we have a CTrie with three words 'johns', 'hopkins', 'university'
+   *    it will print "hopkins\njohns\nuniversity\n"
    * \param os A reference to the output stream object
-   * \param tt A constant reference to the input TTrie object
+   * \param q A constant reference to the input CTrie object
    * \return A reference to the output stream object
   */
-  template< typename U>
-  friend std::ostream& operator<<(std::ostream& os, const TTrie<U>& tt);
+  friend std::ostream& operator<<(std::ostream& os, const TTrie<DataType>& ct);
 
   /**
    * \return the number of children
@@ -78,32 +74,36 @@ public:
   bool hasChild() const;
 
   /**
-   * Check whether a child linked by a specific value exists.
-   * \param value a value
-   * \return true if there is a link to a child labeled with the value,
+   * Check whether a child linked by a specific character exists.
+   * \param character a character
+   * \return true if there is a link to a child labeled with the character,
    *         false otherwise
    */
-  bool hasChild(const DataType &value) const;
+  bool hasChild(DataType character) const;
 
   /**
    * Get pointer to child node reachable via link labeled with
-   * the specified value.
-   * \param value a value
+   * the specified character.
+   * \param character a character
    * \return pointer to child node, or nullptr if there is no such child
    */
-  const TTrie<DataType>* getChild(const DataType &value) const;
+  const TTrie<DataType>* getChild(DataType character) const;
 
   /**
    * \return true if this node is an endpoint, false otherwise
    */
-  bool isEndpoint() const; 
-
+  bool isEndpoint() const;
+ 
 private:
-  // TODO: fields
-
-  // TODO: helper functions
+  bool endPoint;
+  std::map<DataType, TTrie<DataType>*> children;
+  
+  void clearMe();
+  void addEquals(const std::vector<DataType> &vec);
+  void setTTrieEqual(const TTrie<DataType> &rhs);
+  TTrie<DataType>* giveChild(DataType c);
+  bool carrot(const std::vecot<DataType> &vec) const;
+  std::vector<DataType> output_trie(std::vector<DataType> &base, std::vector<DataType> &fullWord) const;
 };
-
 #include "TTrie.inc"
-
 #endif // TTRIE_H
