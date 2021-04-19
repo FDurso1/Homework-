@@ -119,6 +119,7 @@ private:
   CTrie* giveChild(char c);
   bool carrot(const std::string &word) const;
   bool doubleEqual(const CTrie* rhs) const;
+  std::string output_trie(std::string& base, std::string& word) const;
 };
 
 #endif // CTRIE_H

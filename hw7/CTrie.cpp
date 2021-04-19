@@ -11,6 +11,9 @@
 
 using std::cout;
 using std::endl;
+using std::stringstream;
+using std::string;
+
 // TODO: implement the CTrie member functions and friend function
 
 
@@ -50,13 +53,13 @@ void CTrie::clearMe() {
   }
 
   this->children.clear();
-  std::cout << "Clear concluded" << std::endl;
+  //std::cout << "Clear concluded" << std::endl;
 }
 
 CTrie::~CTrie() {
-  std::cout << "Destructor called for " << this << std::endl;
+  // std::cout << "Destructor called for " << this << std::endl;
   clearMe();
-  std::cout << "Destructor concluded" << std::endl;
+  //std::cout << "Destructor concluded" << std::endl;
 }
 
   /**
@@ -126,7 +129,7 @@ void CTrie::addEquals(const std::string& word) {
     *giveChild(c) += wordCopy;
   }
   else { //last character in word
-    std::cout << "word done, setting endpoint" << std::endl;
+    std::cout << "word done, setting endpoint to TRUE" << std::endl;
     endPoint = true;
   }
 }
@@ -144,7 +147,7 @@ CTrie& CTrie::operator+=(const std::string& word) {
 
 bool CTrie::carrot(const std::string &word) const {
   char c = word.at(0);
-
+  cout << "carrot called with c = " << c << endl;
  
   if (hasChild(c) == false) {
     cout << "Child not found for character: " << c << ", returning false" << endl;
@@ -180,30 +183,13 @@ bool CTrie::operator^(const std::string &word) const {
 
 
 bool CTrie::doubleEqual(const CTrie* rhs) const {
-  std::map<char, CTrie*>::const_iterator rcit = rhs->children.cbegin();
-  std::map<char, CTrie*>::const_iterator lcit = this->children.cbegin();
-  while (rcit != rhs->children.cend()) {
-    if (lcit == this->children.cend()) {
-      cout << "end of rhs children but not lhs children, not equal" << endl;
-      return false;
-    }
-    if (isEndpoint() != rhs->endPoint) {
-      cout << "Endpoints are not the same, not equal" << endl;
-      return false;
-    }
-    if (lcit->first != rcit->first) {
-      cout << "letter of current child is not the same between lhs and rhs, not equal" << endl;
-      return false;
-    }
-    lcit++;
-    rcit++;
-    return lcit->second == rcit->second;
-  }
-  return true;
+  string a = "";
+  return rhs->output_trie(a, a) == this->output_trie(a, a);
 }
 
 
 bool CTrie::operator==(const CTrie& rhs) const {
+  cout << "Beginning == operator in CTrie" << endl;
   return doubleEqual(&rhs);
 } 
 
@@ -217,22 +203,61 @@ bool CTrie::operator==(const CTrie& rhs) const {
    * \return A reference to the output stream object
   */
 
-std::ostream& outPut(std::ostream& os, const CTrie& ct) {
-  std::map<char, CTrie*>::const_iterator cit = ct.children.cbegin();
-  while (cit != ct.children.cend()) {
-    os << cit->first;
-    if (ct.endPoint) {
-      os << '\n';
+void outAllKids(const CTrie* ct) {
+  std::map<char, CTrie*>::const_iterator cit = ct->children.cbegin();
+  cout << "Listing all the kids of this CTrie: " << endl;
+   while (cit != ct->children.cend()) {
+     cout << cit->first << endl;
+     cit++;
+   }
+}
+
+//have a base that holds the stem, and word which holds everything.
+string CTrie::output_trie(string& curBase, string& word) const {
+  //outAllKids(this);
+  
+  std::map<char, CTrie*>::const_iterator cit = children.cbegin();
+  //cout << "Starting output trie with CTrie" << this << endl;
+  //  std::cin.ignore();
+  string saveCurBase = curBase;
+  
+  while (cit != children.cend()) {
+    //for each letter in the map at this level
+
+    //cout << "child detected with letter " << cit->first << endl;
+    curBase += cit->first;
+    //cout << "Curbase is: " << curBase << endl;
+    //change this to curBase += cit->first;?
+    //std::cin.ignore();
+    
+    if (isEndpoint()) {
+      word += curBase;
+      word += '\n';
     }
-    else {
-      outPut(os, *(cit->second));
+    if (hasChild()) {
+      //cout << "Recursive call" << endl;
+      //std::cin.ignore();
+      (cit->second)->output_trie(curBase, word);
+      curBase = saveCurBase;
+      //cout << "after recursive call, word: " << word << ", curBase: " << curBase << endl;
     }
+    
+    cit++;
   }
-  return os;
+  //cout << "Going back a level" << endl;
+  //std::cin.ignore();
+  return word;
 }
 
 std::ostream& operator<<(std::ostream& os, const CTrie& ct) {
-  return outPut(os, ct);
+  cout << "beginning << operator" << endl;
+  // std::cin.ignore();
+  string str = "";
+  string base = "";
+  os << ct.output_trie(base, str);
+  //  cout << "Return from output_trie: " << ct.output_trie(base, str) << endl;
+  cout << "ending << operator" << endl;
+  return os;
 }
 
   /**
@@ -243,6 +268,7 @@ unsigned CTrie::numChildren() const {
   std::map<char, CTrie*>::const_iterator cit = this->children.cbegin();
   while (cit != this->children.cend()) {
     sum++;
+    cit++;
   }
   return sum;
 }
@@ -262,12 +288,12 @@ bool CTrie::hasChild() const {
    *         false otherwise
    */
 bool CTrie::hasChild(char character) const {
-  std::cout << "Testing if " << character << " is a child" << std::endl;
+  //std::cout << "Testing if " << character << " is a child" << std::endl;
   //Code based on hint for hw7
   std::map<char, CTrie *>::const_iterator cit = this->children.find(character);
-  std::cout << "cit created" << std::endl;
-  if (cit == this->children.end()) {
-    std::cout << "Returning false" << std::endl;
+  //std::cout << "cit created" << std::endl;
+  if (cit == this->children.cend()) {
+    //std::cout << "Returning false" << std::endl;
     return false;
   }
   return true;
@@ -284,7 +310,7 @@ const CTrie* CTrie::getChild(char character) const {
 
   //Code based on hint for hw7
   std::map<char, CTrie *>::const_iterator cit = this->children.find(character);
-  if (cit == children.end()) {
+  if (cit == children.cend()) {
     return nullptr;
   }
   else {
