@@ -5,7 +5,7 @@
 #include <vector>
 #include <iterator>
 #include <stdbool.h>
-#include "TTrie.h"
+
 
  /**
    * Default Constructor.
@@ -145,6 +145,7 @@ bool TTrie<DataType>::carrot(const typename std::vector<DataType> &vec) const {
   return true;
 }
 
+
 template<typename DataType>
 bool TTrie<DataType>::operator^(const std::vector<DataType> &vec) const {
   return carrot(vec);
@@ -160,8 +161,8 @@ bool TTrie<DataType>::operator^(const std::vector<DataType> &vec) const {
 template<typename DataType>
 bool TTrie<DataType>::operator==(const TTrie<DataType>& rhs) const {
   //using the output of this and rhs to determine if they are equal.
-  DataType a;
-  return rhs.output_trie(a, a) == (*this).output_trie(a, a);
+  DataType a, b, c, d;
+  return rhs.output_trie(a, b) == (*this).output_trie(c, d);
 
 } 
 

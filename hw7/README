@@ -8,5 +8,5 @@ wordHunt compiles and runs, however due to the += error its output is not entire
 In bugtesting I accidently did: rm CTrie.cpp
 I am almost sure that I undid the mistake, repulling from a 4 hour old github, but if anything does not work besides what I know does not above, please assume that it was working correctly before /s
 
-
+TTrie has far more progress than its lack of compilation would imply. Please read through it. 
 
