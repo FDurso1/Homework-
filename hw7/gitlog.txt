@@ -1,0 +1,349 @@
+commit b6cbc1673e73e675ef31be970b28d54a78a2ad0a
+Author: Francis <fdurso1@jh.edu>
+Date:   Mon Apr 19 22:26:13 2021 -0400
+
+    Nearly out of time, testing Gradescope submission before it's too late. README updated, TTrieTest so close but so far.
+
+commit fb7016bf7077e58386295fa796aae20d1e3a598f
+Author: Francis <fdurso1@jh.edu>
+Date:   Mon Apr 19 22:10:17 2021 -0400
+
+    Saving progress in case I accidently rm an important file again. Makefile updated and corrected so that wordHunt compiles. CTrie recovered, and is still just partly failing the += operator. TTrie does not want to compile. README added.
+
+commit e464584e2be65b159e470e3b83037867103266f4
+Author: Francis <fdurso1@jh.edu>
+Date:   Mon Apr 19 17:51:23 2021 -0400
+
+    TTrie started, CTrie close enough. += doesn't quite work, but it's almost there
+
+commit 66185122592f7efbd3442ee5a2494e7e8ccb28da
+Author: Francis <fdurso1@jh.edu>
+Date:   Mon Apr 19 02:08:06 2021 -0400
+
+    Nearly all CTrie functions passing. += is not because it is detecting hell as a valid word inside hello when it shouldnt. Will work on TTrie tomorrow.
+
+commit 642d2a076b50f8adcc7814f9d4d1ad992e527034
+Author: Francis <fdurso1@jh.edu>
+Date:   Sun Apr 18 16:21:09 2021 -0400
+
+    Mysterious error resolved. Current issue is either with = or with ==. One is not working properly.
+
+commit 4b1f9ea8d348c55b08fd20cbcfaa7cf0ad08a4c5
+Author: Francis <fdurso1@jh.edu>
+Date:   Sun Apr 18 10:15:43 2021 -0400
+
+    Spent an hour working this morning, and now with giveChild function the += tests are passing :). However, CTrieTest decided to explode, even after re-copying from public repo. Posted on Piazza, progress halted until resolved.
+
+commit 4c142d16a4c40ca77d9eef535d668147418ade4f
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Apr 17 22:50:42 2021 -0400
+
+    Couldn't get into office hours twice, despite arriving over 30 mins early, some helper functions now in the .h file instead of passing *this as a lhs argument in a helper, assignment operator broke in process, and += has an infinite seg fault.
+
+commit 2dc2e9bfb08fff9229af16a9ed5e08333e267037
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Apr 17 17:39:28 2021 -0400
+
+    Makefile now working, default constructor passes tests, += passes tests. Destructor failing
+
+commit 205edaed40f748c31bb84ecbce4001c283137cd4
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Apr 17 13:43:32 2021 -0400
+
+    All CTrie functions no longer producing errors, going to OH soon to try and fix Makefile so I can test them out
+
+commit 205e480cc867a5cde623a5a8df5cbfdfec9fc216
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Apr 17 12:53:38 2021 -0400
+
+    No more errors from += and ^, testing not yet performed
+
+commit 2b535bca50a0a0e9fecb986b105fc253f550e0ef
+Author: Francis <fdurso1@jh.edu>
+Date:   Fri Apr 16 23:41:54 2021 -0400
+
+    Copy constructor and destructor now no longer producing errors. Progress. Onto the overloaded operators when it's not approaching midnight
+
+commit c34811f6c9bb4320a0e4a8f1ae4067a337d420d3
+Author: Francis <fdurso1@jh.edu>
+Date:   Wed Apr 14 22:49:13 2021 -0400
+
+    Several errors, trying to figure out how to recursively create equals operator to use in copy constructor. Office hours tomorrow
+
+commit 872c6327083a24103505fb9ab518d350f75c6ec2
+Author: Francis <fdurso1@jh.edu>
+Date:   Sun Apr 11 21:21:31 2021 -0400
+
+    Downloaded starter code, made headers in cpp.
+
+commit 9b529bdbf6fb70c3d0ae45a23b2e4aef405f44e3
+Author: Francis <fdurso1@jh.edu>
+Date:   Thu Apr 1 22:44:49 2021 -0400
+
+    Program done, sudden realization as making README that I could use name as a variable in the structs to eliminate an entire map of lower-case names tied to structs, did that and made the rest of the code more concise by adding getFullName() method and removing commented out portions. Made README. program output normal, reading from savefiles normally.
+
+commit f6bb5bfd96a6aa9ab50d230e8d62ebc0801d9b83
+Author: Francis <fdurso1@jh.edu>
+Date:   Thu Apr 1 13:26:21 2021 -0400
+
+    Tests passed, however case sensitivity not yet accounted for. Possible idea involving a lower-case map. Errors from pervious commit fixed with an improved while loop and a short-circuit to prevent over-reading.
+
+commit 3b78123d324fccd3fefdbe89d65c37d81b29e73b
+Author: Francis <fdurso1@jh.edu>
+Date:   Wed Mar 31 23:49:26 2021 -0400
+
+    nearly everything finally working smoothly. Non-file functions seems to be working normally. Save works as expected. Recover has one error on 346 - scalar object hold requires one element in initializer - that needs to be worked out. Code is a bit long, concision in future update
+
+commit fc095dacdbcd14c52f9c677b27a7afb41dc71182
+Author: Francis <fdurso1@jh.edu>
+Date:   Wed Mar 31 17:47:49 2021 -0400
+
+    Function now compiles, added phone numbers not saved beyond the add number function, reading and writing untested. Other functions appear to be working properly, though user-error messages not yet present for those cases
+
+commit 2112739939e44bd3866a70a5dc102dc9e438a022
+Author: Francis <fdurso1@jh.edu>
+Date:   Tue Mar 30 23:55:34 2021 -0400
+
+    Main skeleton done. Map created using a string for key and a struct to hold numbers. C and L working, D having an error. P untested
+
+commit 6600baf99884ddf1a9b8a946209efef5f552d47f
+Author: Francis <fdurso1@jh.edu>
+Date:   Wed Feb 24 23:22:14 2021 -0500
+
+    Gradescope didn't like reading user input character by character, trying with a string
+
+commit 6b76119e3bec02fcc330f224e9899456e1db6b60
+Author: Francis <fdurso1@jh.edu>
+Date:   Wed Feb 24 22:33:36 2021 -0500
+
+    removed bug-testing printf statements, final submission unless I find an error in the next two days.
+
+commit 2b030d07fc96ebfbf0e29d72e0d673e7e52ea75e
+Author: Francis <fdurso1@jh.edu>
+Date:   Wed Feb 24 22:28:02 2021 -0500
+
+    30 minutes of bug testing later to find a < should have been a <=. At least the bug is fixed, glad I did an extra test_function check for the exact limit of ~
+
+commit ca245e3599112e35f6462c2a0a28a3a591254857
+Author: Francis <fdurso1@jh.edu>
+Date:   Wed Feb 24 21:48:15 2021 -0500
+
+    Functions.c completed, all test working. Values look good, printf statements removed. ReadMe done but could use revision.
+
+commit 99ff86fea99488fcbe72747faeb58d6c8bb0b91f
+Author: Francis <fdurso1@jh.edu>
+Date:   Wed Feb 24 18:58:57 2021 -0500
+
+    Program output finally looking good, will remove extra printf statements once test_functions is done
+
+commit af6854b9dbdedc9137a7dddd4e379af1530cbf88
+Author: Francis <fdurso1@jh.edu>
+Date:   Wed Feb 24 17:27:41 2021 -0500
+
+    recursion issue fixed, ++ != +1 for pointer arithemetic. Test cases still not working properly, more bug-testing needed. Restriction should now be able to be changed optionally.
+
+commit 85e3b1c5c5c5b980c226ca13fdc54921b1bcbe82
+Author: Francis <fdurso1@jh.edu>
+Date:   Tue Feb 23 23:00:39 2021 -0500
+
+    I misinterpreted how regex expressions should match with the words, a CA has now corrected me. Recursion now being used for the tilde case, * and ? cases updated to use recursion to look ahead and see whether some/all/none of the relevant letter should be kept to best match the given word. I suspect this should work in theory. Error coming in that the pointer arithmetic does not seem to be working, (regex and word strings are not getting shorter per recursive iteration). Test code still incomplete.
+
+commit bfd0b2717c0ef34c720e6b2b2fb59da5b5d3ed7b
+Author: Francis <fdurso1@jh.edu>
+Date:   Sun Feb 21 20:23:55 2021 -0500
+
+    You know what's better than restarting with a plan? Restarting with a plan-1 followed by a plan-2. Recursion is now heavily implemented in the solution, and it is much easier on the eyes. Two small errors regarding assignment from char* to char and expecting char* but getting char** to work out, but otherwise code should now work as intended. Let the bug hunting begin. ReadMe and Testing still left to do as well. Also I messed up with commiting by not specifying hw3 a minute ago, I then git resest soft HEAD~1, so I hope that fixed it. Re-commiting AGAIN because I only commited the executable before. I swear I'm not trying to pad the gitlog
+
+commit fc1937185cc143572f8c08ea34a2235edcc73af6
+Author: Francis <fdurso1@jh.edu>
+Date:   Sun Feb 21 20:21:56 2021 -0500
+
+    You know what's better than restarting with a plan? Restarting with a plan-1 followed by a plan-2. Recursion is now heavily implemented in the solution, and it is much easier on the eyes. Two small errors regarding assignment from char* to char and expecting char* but getting char** to work out, but otherwise code should now work as intended. Let the bug hunting begin. ReadMe and Testing still left to do as well. Also I messed up with commiting by not specifying hw3 a minute ago, I then git resest soft HEAD~1, so I hope that fixed it.
+
+commit fe215d362d41f667b5c63c1d915e80bc0025ac8e
+Author: Francis <fdurso1@jh.edu>
+Date:   Sun Feb 21 17:16:43 2021 -0500
+
+    You know what's better than starting over? Starting over with a better plan. I now have a much clearer approach to solving this after spending some time with a pencil and paper instead of my face in my hands. It is detailed at the bottom of functions.c
+
+commit 4ef941854757d1eaf4dfdc37cab6397701da87c4
+Author: Francis <fdurso1@jh.edu>
+Date:   Sun Feb 21 14:19:33 2021 -0500
+
+    regex bug fixed somehow, am now working on match. Several sub-functions made, word length identifiable. Updated read_file to use strings instead of chars after Piazza response.
+
+commit 11dfc94b9834e220e273ea12104f6341aeacb4ec
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Feb 20 21:48:07 2021 -0500
+
+    I think I may have been just adding and commiting the hw3 executable instead of the actual source code. I will make sure to avoid doing that in the future. Prev message still applies regarding regex's behavior and match
+
+commit f09ee72731e1ae90134f0bca88775a23be8f0102
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Feb 20 21:45:35 2021 -0500
+
+    Some strange behavior with adding the regex as a parameter in main, not seeming to remember what it was around 10 lines ago. Once fixed, match can begin
+
+commit 19c266688c4f28bcddaa5493488835e06da85b05
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Feb 20 20:51:25 2021 -0500
+
+    Ok, I think input reading now works correctly, assuming the input file ends with a newline character. All words are properly stored in words[][] as well
+
+commit 05815b9b85c7edc4b91e6010e20de13264fea5b7
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Feb 20 17:47:26 2021 -0500
+
+    almost have reading from a file down, error in that the example input.txt does not end in a newline character.
+
+commit 17dc150f04d40090d8c274ede8b8a7126a2e4e68
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Feb 20 16:45:45 2021 -0500
+
+    hw3 started and I'm already lost. Rewatching past lectures, still got time
+
+commit 164849a97d64caebf676c8c60f1b788415964703
+Author: Francis <fdurso1@jh.edu>
+Date:   Sun Feb 7 21:08:12 2021 -0500
+
+    fixed typo
+
+commit cb1636416ccfeb31756dd846040b41a319ae8387
+Author: Francis <fdurso1@jh.edu>
+Date:   Sun Feb 7 20:57:58 2021 -0500
+
+    Minor update, extra bug-testing lines deleted. Ready for submission? Testing Gradescope
+
+commit 138efaf67494cfe6f25a30da021b5558ace1c5ac
+Merge: 09dd370 43945d8
+Author: Francis <fdurso1@jh.edu>
+Date:   Sun Feb 7 11:37:14 2021 -0500
+
+    Merge branch 'main' of https://github.com/FDurso1/Homework- into main
+
+commit 09dd3703afb196ddfe00898168e238ea0e66008d
+Author: Francis <fdurso1@jh.edu>
+Date:   Sun Feb 7 11:34:20 2021 -0500
+
+    All tests passed. Some uneeded testing comments remain. Error statements not exact. Edit later and submit to gradescope for next test.
+
+commit 43945d80326e14acc3472ed0907340b4d355ba5b
+Author: FDurso1 <77906915+FDurso1@users.noreply.github.com>
+Date:   Sat Feb 6 18:29:38 2021 -0500
+
+    Delete hw1
+
+commit 9840532d072da9ec90630febae10b8c41b3bb237
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Feb 6 18:28:43 2021 -0500
+
+    improved code style, no-input case now works, but '1f - 2c + 1f - 2c' =/= '-4c' =/= '-2c - 2c'. Also accidently pushed hw1 instead of hw1.c, should be ok now
+
+commit 2ee48852a714045f57b4300771706bd7c3672a35
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Feb 6 18:26:08 2021 -0500
+
+    Improved code style, made no-input case work, but '1f -2c -1f -2c' =/= '-4c' =/= '-2c - 2c'. Gotta fix that quick
+
+commit f75b1ab420e8823e590f33497cb8cbc21ffd252f
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Feb 6 14:44:04 2021 -0500
+
+    Most exceptions are working, only example 10 fails due to the setup of the second handling of malformed expression
+
+commit 1ad74387a5809cf2fe44bab71d2b1764316ca101
+Author: Francis <fdurso1@jh.edu>
+Date:   Fri Feb 5 23:10:55 2021 -0500
+
+    Negative values now functioning regardless of whether the negative sign is attached to the temperature or on its own...I think
+
+commit eb8cd5450eeaf52b393e5b5a0df274e0d613665b
+Author: Francis <fdurso1@jh.edu>
+Date:   Fri Feb 5 17:57:06 2021 -0500
+
+    Homework 1 can now validate the temperature type and return successfully for one temperature input
+
+commit 439c42fc1908097483473d006d4cb1b7d6dd5370
+Author: Francis <fdurso1@jh.edu>
+Date:   Fri Feb 5 17:01:40 2021 -0500
+
+    Homework 1 now started
+
+commit 23d4452a1222db3b81f6a50129775fb7ecf3c058
+Author: FDurso1 <77906915+FDurso1@users.noreply.github.com>
+Date:   Sat Jan 30 22:25:40 2021 -0500
+
+    Rename three.c to hw0/three.c
+
+commit f8ad35c185765f5b88ffa40f13a2793ff480891a
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Jan 30 22:25:08 2021 -0500
+
+    part three of four - three.c
+
+commit 533dde97f3b4e5e5238e6a7878f80b9f15ed41d1
+Author: FDurso1 <77906915+FDurso1@users.noreply.github.com>
+Date:   Sat Jan 30 22:24:01 2021 -0500
+
+    Rename two.c to hw0/two.c
+
+commit 70ab518575ae35f386f71314158dac20f84287ba
+Merge: 8856e94 0eaf0fd
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Jan 30 22:20:55 2021 -0500
+
+    Merge branch 'main' of https://github.com/FDurso1/Homework- into main
+
+commit 8856e94ef1bd777f3a07de357af1b7103a50f951
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Jan 30 22:18:00 2021 -0500
+
+    part two of four - two.c
+
+commit 0eaf0fdeaf42068398e7a9472c93d0e88659ebed
+Author: FDurso1 <77906915+FDurso1@users.noreply.github.com>
+Date:   Sat Jan 30 22:17:20 2021 -0500
+
+    Rename one.c to hw0/one.c
+
+commit cec176d4f7a6227b0f6d3da7dfe440dd632a3850
+Author: FDurso1 <77906915+FDurso1@users.noreply.github.com>
+Date:   Sat Jan 30 22:16:57 2021 -0500
+
+    Delete two.c
+
+commit 798448fe083dc7c453051d7a6e11b41dadbef15d
+Author: FDurso1 <77906915+FDurso1@users.noreply.github.com>
+Date:   Sat Jan 30 22:16:51 2021 -0500
+
+    Delete three.c
+
+commit de028b879e626f0628706089c5217e78d5f74ec8
+Author: FDurso1 <77906915+FDurso1@users.noreply.github.com>
+Date:   Sat Jan 30 22:16:46 2021 -0500
+
+    Delete one.c
+
+commit bc4d118f5b54a51782e2e210ebec302570137110
+Author: Francis <fdurso1@jh.edu>
+Date:   Sat Jan 30 22:12:16 2021 -0500
+
+    part one of four - one.c
+
+commit 1faef465a323a6d14b8501de17c5c2c566097314
+Author: FDurso1 <77906915+FDurso1@users.noreply.github.com>
+Date:   Wed Jan 27 21:43:36 2021 -0500
+
+    Create three.c
+
+commit 176604c50efee0481b859d28d028d30fb52ad3fa
+Author: FDurso1 <77906915+FDurso1@users.noreply.github.com>
+Date:   Wed Jan 27 21:43:13 2021 -0500
+
+    Create two.c
+
+commit 1fbf868bdf40b0662321da957561a6a58adffe8f
+Author: FDurso1 <77906915+FDurso1@users.noreply.github.com>
+Date:   Wed Jan 27 21:42:40 2021 -0500
+
+    Create one.c
