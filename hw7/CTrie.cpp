@@ -97,8 +97,7 @@ CTrie & CTrie::operator=(const CTrie &rhs) {
 //Word will always be at least 1 letter
 void CTrie::addEquals(const std::string& word) {
     char c = word.at(0);
-    cout << "char: " << c << " out of word " << word << endl;
-    
+       
     //if the child does not exist with that letter yet, make it
     if (!hasChild(c)) {
       CTrie* nextLevel = new CTrie;
@@ -112,7 +111,6 @@ void CTrie::addEquals(const std::string& word) {
     }
     if (word.length() == 1) {
       this->endPoint = true;
-      cout << "The CTrie: " << giveChild(c) << " with the letter " << c <<" now has the endPoint value " << giveChild(c)->isEndpoint() << endl;
       return;
     }
 }
@@ -163,8 +161,8 @@ bool CTrie::operator^(const std::string &word) const {
 
 bool CTrie::operator==(const CTrie& rhs) const {
   //using the output of this and rhs to determine if they are equal.
-  string a = "";
-  return rhs.output_trie(a, a) == (*this).output_trie(a, a);
+  string lBase, lFull, rBase, rFull = "";
+  return rhs.output_trie(lBase, lFull) == (*this).output_trie(rBase, rFull);
 
 } 
 

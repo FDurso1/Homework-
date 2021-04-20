@@ -3,6 +3,15 @@ CXXFLAGS = -g -Wall -Wextra -std=c++11 -pedantic
 
 #all: CTrieTest TTrieTest wordHunt
 
+wordHunt : wordHuntMain.o CTrie.o WordHunt.o
+	$(CXX) $(CXXFLAGS) -o wordHunt wordHuntMain.o CTrie.o WordHunt.o
+
+wordHunt.o : wordHunt.cpp WordHunt.h
+	$(CXX) $(CXXFLAGS) -c wordHunt.cpp
+
+wordHuntMain.o : wordHuntMain.cpp WordHunt.h CTrie.h
+	$(CXX) $(CXXFLAGS) -c wordHuntMain.cpp
+
 CTrieTest : CTrieTest.o CTrie.o
 	$(CXX) $(CXXFLAGS) -o CTrieTest CTrieTest.o CTrie.o
 
@@ -13,10 +22,10 @@ CTrie.o : CTrie.cpp CTrie.h
 	$(CXX) $(CXXFLAGS) -c CTrie.cpp
 
 TTrieTest : TTrieTest.o
-	$(CSS) $(CXXFLAGS) -o TTrieTest TTrieTest.o
+	$(CXX) $(CXXFLAGS) -o TTrieTest TTrieTest.o
 
 TTrieTest.o : TTrieTest.cpp TTrie.h TTrie.inc
-	$(CSS) $(CXXFLAGS) -c TTrieTest.cpp
+	$(CXX) $(CXXFLAGS) -c TTrieTest.cpp
 
 clean:
-	rm -f CTrieTest TTrieTest *.o
+	rm -f CTrieTest TTrieTest wordHunt *.o

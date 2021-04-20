@@ -1,8 +1,12 @@
 Francis Durso
 fdurso1
 
-Currently stumped on how to proceed, though I understand how it should
-work theoretically. Each CTrie will hold a map and a boolean. The boolean
-says whether it is an end point. The map will a key of characters (letters)
-and values of CTrie's. By accessing a CTrie, you can then access the elements
-in its map in order to find out how far the tree goes. 
+I was not sure how recursion within an overloaded operator would work, so I opted to use helper functions called by the operators and implemented the recursion inside them. The only thing clever I did was using the << operator, or more specifically the output_trie function, in order to implement the == operator without additional coding. If the output of each trie is the same, they're identical. I also decided that getChild(c) would be more useful if you could modify the return value, so I created giveChild(c) which is nearly identical except it's not const protected. The data was accessible in other ways, but this was easier for me. I got stuck bug-testing the += operator, which seems to add a endPoint to existing words when new ones are added. This results in failing one of the pre-given tests. I went to office hours twice, both times for just a few minutes, as well as posting on Piazza, however the issue was never resolved.
+
+wordHunt compiles and runs, however due to the += error its output is not entirely correct. However, it does find the majority of the present words, and I'd like to think that it is an inventive program, discovering hitherto unknown words from the great sea of literary possibility.
+
+In bugtesting I accidently did: rm CTrie.cpp
+I am almost sure that I undid the mistake, repulling from a 4 hour old github, but if anything does not work besides what I know does not above, please assume that it was working correctly before /s
+
+
+

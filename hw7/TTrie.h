@@ -61,7 +61,9 @@ public:
    * \param q A constant reference to the input CTrie object
    * \return A reference to the output stream object
   */
-  friend std::ostream& operator<<(std::ostream& os, const TTrie<DataType>& ct);
+ 
+  template<typename U>
+  friend std::ostream& operator<<(std::ostream& os, const TTrie<U>& tt);
 
   /**
    * \return the number of children
@@ -79,7 +81,7 @@ public:
    * \return true if there is a link to a child labeled with the character,
    *         false otherwise
    */
-  bool hasChild(DataType character) const;
+  bool hasChild(const DataType character) const;
 
   /**
    * Get pointer to child node reachable via link labeled with
@@ -87,7 +89,7 @@ public:
    * \param character a character
    * \return pointer to child node, or nullptr if there is no such child
    */
-  const TTrie<DataType>* getChild(DataType character) const;
+  const TTrie<DataType>* getChild(const DataType character) const;
 
   /**
    * \return true if this node is an endpoint, false otherwise
@@ -102,7 +104,7 @@ private:
   void addEquals(const std::vector<DataType> &vec);
   void setTTrieEqual(const TTrie<DataType> &rhs);
   TTrie<DataType>* giveChild(DataType c);
-  bool carrot(const std::vecot<DataType> &vec) const;
+  bool carrot(const std::vector<DataType> &vec) const;
   std::vector<DataType> output_trie(std::vector<DataType> &base, std::vector<DataType> &fullWord) const;
 };
 #include "TTrie.inc"

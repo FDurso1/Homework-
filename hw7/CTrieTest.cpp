@@ -74,11 +74,8 @@ struct CTrieTest {
     q += "johns";
     q += "joanna";
     q += "johnson";
-    //    cout << "     cp 0, copy constructor p(q). q has hello, hell, help, johns, joanna, and johnson. p has nothing" << endl;
     CTrie p(q);
-    // cout << "     cp 1, copy constructor now done" << endl;
     ASSERT((p == q));
-    // cout << "double equals operator works" << endl;
     p += "jelly";
     ASSERT(!(p == q));
   }
@@ -95,23 +92,18 @@ struct CTrieTest {
     ASSERT(!(q ^ "rice"));
     ASSERT(!(q ^ "beans"));
     ASSERT(!(r ^ "hello"));
-    // cout << "     cp 0.5" << endl;
     ASSERT(r ^ "rice");
     ASSERT(r ^ "beans");
-    // cout << "     cp 1 q=r, r has rice and beans. q has hello." << endl;
     q = r;
-    cout << "     cp 2" << endl;
     ASSERT(!(q ^ "hello"));
     ASSERT(q ^ "rice");
     ASSERT(q ^ "beans");
     ASSERT(!(r ^ "hello"));
     ASSERT(r ^ "rice");
     ASSERT(r ^ "beans");
-    // cout << "     cp 3, Assignment Operator Tests complete" << endl;
   }
 
   static void CaratOperatorTest() {
-    cout << "        cp 4, start Carat Test" << endl;
     CTrie q = CTrie();
     q += "hello";
     ASSERT(q ^ "hello");
@@ -122,27 +114,18 @@ struct CTrieTest {
     ASSERT(!(q ^ "hell"));
     q += "hell";
     ASSERT((q ^ "hell"));
-    cout << "     cp 5, end carat test" << endl;
   }
 
   static void ChainingTest() {
-    cout << "                            " << endl;
-    cout << "     cp 6, start chaining test" << endl;
-    CTrie q = CTrie();
-    cout << "        Should be nothing yet q: " << q << endl;
-    //(q += "hello") += "help";
+    CTrie q = CTrie();;
     q += "hello";
-    cout << "        Should be just hello q: " << q << endl;
     q += "help";
-    cout << "        Should be hello and help q: " << q << endl;
     ASSERT(q ^ "hello");
     ASSERT(q ^ "help");
     ASSERT(!(q ^ "hell"));
-    cout << "     cp 7, end chaining test" << endl;
   }
 
   static void EqualityOperatorTest() {
-    cout << "     cp 8, start equality operator test" << endl;
     CTrie q = CTrie();
     q += "hello";
     q += "hell";
@@ -150,8 +133,6 @@ struct CTrieTest {
     q += "johns";
     q += "joanna";
     q += "johnson";
-    cout << "     cp 8.1, q finished +='ing" << endl;
-
     CTrie p = CTrie();
     p += "joanna";
     p += "johnson";
@@ -159,18 +140,12 @@ struct CTrieTest {
     p += "johns";
     p += "hell";
     p += "hello";
-    cout << "     cp 8.2, p finished +='ing with the same words in a different order, about to assert ==" << endl;
-    cout << "q: " << q << endl;
-    cout << "p: " << p << endl;
     ASSERT((p == q));
-    cout << "     cp 8.3, == did not crash" << endl;
     p += "howdy";
     ASSERT(!(p == q));
-    cout << "      cp 9, end equality operator test" << endl;
   }
 
   static void OutputStreamOperatorTest() {
-    cout << "     cp 10 start output stream" << endl;
     CTrie q = CTrie();
     q += "hello";
     q += "hell";
@@ -180,16 +155,13 @@ struct CTrieTest {
     q += "johnson";
 
     std::stringstream ss;
-    cout << "     cp 11, right before << tested, should be hello, hell, help, johns, joanna, johnson" << endl;
     ss << q;
-    cout << "     cp 12, << did not crash" << endl;
     ASSERT(ss.str() == "hell\nhello\nhelp\njoanna\njohns\njohnson\n");
-    cout << "     cp 13, end output stream" << endl;
   }
 };
 
 int main(int, char* argv[]) {
-  cout << "Testing CTrie" << endl;
+
   // register a seg fault hanlder
   sprintf(programName, "%s", argv[0]);
   struct sigaction signalAction;
